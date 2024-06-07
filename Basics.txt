@@ -36,3 +36,30 @@
      Whenever a code is executed the Global Execution Context is pushed into the stack first and later on as per the 
      function invocation the  execution context is pushed into the stack. When the function code is done executing the
       execution context is popped out and last the Global Execution Context s also deleted.
+4.Hoisting in Js?
+    => Hoisting is a JavaScript mechanism or behavior where variables and function declarations are moved to 
+    the top of their scope before code execution.
+    => Hoisting is not just for variable declarations. It also affects function declarations.
+    => In the Execution Context it has two phases, Memory phase and Code Phase, In the Memory Phase all variables are intialized with 
+       special keyword "Undefined" and Functions are stored as it is.(Note: Arrow Functions are intialized with Undefined)
+    => So, Before code Executed in th code Execution phase , all variables and functions are intialized with special keyword "Undefined"
+       and functions are stored as it is.
+    => So, we can able access the variable and functions before they declaired. is called as Hoisting.
+    => Variable are not Hoisted,Function declarations are Hoisted
+    => Example:
+              console.log(a);  ==> Output: Undefined
+              console.log(getName());  ==> Output: Rakesh
+              console.log(getName)   ==> Output: function getName(){console.log("Rakesh");}
+              var a = 10;
+              function getName(){
+                console.log("Rakesh");
+              }
+
+5.How functions Works in Js? Variable Environment?
+    => At first a global execution context is created, which consists of Memory and code and 
+       has 2 phases: Memory allocation phase and code execution phase.
+    =>In the first phase, the variables are assigned "undefined" while functions have their own code.
+    =>Whenever there is a function declaration in the code, a separate local execution context gets created 
+      having its own phases and is pushed into the call stack.
+    =>Once the function ends, the EC is removed from the call stack.
+    =>When the program ends, even the global EC is pulled out of the call stack.
