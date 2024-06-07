@@ -63,3 +63,30 @@
       having its own phases and is pushed into the call stack.
     =>Once the function ends, the EC is removed from the call stack.
     =>When the program ends, even the global EC is pulled out of the call stack.
+6.SHORTEST JS Program 🔥window & this keyword ?
+    => window object is created by the JS engines of the respective browsers when global execution context is created.
+	=>whenever an execution context is created a "this" variable is also created.
+	=>at the global level "this" points to the global object( window object in case of browsers).
+	=>anything that is not inside a function is the "global space".
+	=>whenever we create any variables or functions in the "global space", they get attached to the global object( window object in case of browsers).
+	=>so to access the variables/function defined in the global space , 
+	we can use any of the below:
+		console.log(window.a);
+		console.log(a);
+		console.log(this.a)
+7.Undefined Vs not defined ?
+    =>Undefined is a Special Placeholder which is used to reserve memory for the variables in the memory creation phase. 
+       Even before a single line of code is executed JS engine assigns undefined to the variables.
+    =>Not Defined means if we try to console or access any variable which is not declared in the code then we get Not Defined error.
+    =>JS is a loosely typed language or weakly typed language means it does not attaches its variables to specific
+       data types like in C++ and java.
+    =>Remember undefined !== not defined.
+8.The Scope Chain, 🔥Scope & Lexical Environment ?
+    =>1. Scope of a variable is directly dependent on the lexical environment.
+    =>2.Whenever an execution context is created, a lexical environment is created. 
+        Lexical environment is the local memory along with the lexical environment of its parent. Lexical as a term means in hierarchy or in sequence.
+    =>3.Having the reference of parent's lexical environment means, the child or the local function can access all the variables and functions defined in the memory space of its lexical parent.
+    =>4.The JS engine first searches for a variable in the current local memory space, if its not found here it
+        searches for the variable in the lexical environment of its parent, and if its still not found, then it searches that variable in the subsequent lexical environments, and the sequence goes on until the variable is found in some lexical environment or the lexical environment becomes NULL.
+    =>5.The mechanism of searching variables in the subsequent lexical environments is known as Scope Chain. If a 
+        variable is not found anywhere, then we say that the variable is not present in the scope chain.
