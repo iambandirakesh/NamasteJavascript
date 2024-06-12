@@ -93,3 +93,184 @@
         variable is found in some lexical environment or the lexical environment becomes NULL.
     =>5.The mechanism of searching variables in the subsequent lexical environments is known as Scope Chain. If a 
         variable is not found anywhere, then we say that the variable is not present in the scope chain.
+9.let,var,const and Temporal dead Zone?
+    =>let and const are hoisted but its memory is allocated at other place than window which cannot be accessed before initialisation.
+    =>Temporal Dead Zone exists until variable is declared and assigned a value.
+    =>window.variable OR this.variable will not give value of variable defined using let or const.
+    =>We cannot redeclare the same variable with let/const(even with using var the second time).
+    =>const variable declaration and initialisation must be done on the same line.
+    => *There are three types of error: [1] referenceError {given where variable does not have memory allocation} [2] typeError {given when we change type that is not supposed to be changed} [3] syntaxError {when proper syntax(way of writing a statement) is not used}.
+    =>Use const wherever possible followed by let, Use var as little as possible(only if you have to). It helps avoid error.
+    =>Initialising variables at the top is good idea, helps shrinks TDZ to zero.
+10.What is Block?
+    =>Code inside curly bracket is called block.==>{}
+    =>Multiple statements are grouped inside a block so it can be written where JS expects single statements
+      like in if, else, loop, function etc.
+    =>Block values are stored inside separate memory than global. They are stored in block. (the reason let and const are called block scope)
+    =>Exmaple: if(true){
+        console.log("This is called Block");
+    }
+11.Closure?
+    =>Function bundled with its lexical environment is known as a closure. Whenever function is returned, 
+        even if its vanished in execution context but still it remembers the reference it was pointing to. 
+        Its not just that function alone it returns but the entire closure
+                                              or  
+    =>A closure is the combination of a function bundled together (enclosed) with references to its surrounding state 
+       (the lexical environment). In other words, a closure gives you access to an outer function's scope from an inner function.
+       In JavaScript, closures are created every time a function is created, at function creation time.
+    => Example:
+              function x(){
+                let a=12;
+                function y(){
+                    console.log(a)
+                }
+              }  => In the Example inner function have the access to the outer function scope or parent scope. so,it's bundeld with it's parent scope
+        2.    
+              function b(){
+                let x=11;
+                return function a(){
+                    console.log(x)
+                }
+              }   
+              let z=b();
+              z() => Output==> 11 so,if we return a function even it's still Remember where it from so,it can remember it's parent scope and we can access
+                                     it in outside by returning it from a function.   
+12.First Class Functions?git
+    1.Function statement:
+        =>A normal function that we create using Naming convention. & By this we can do the Hoisting.
+             For Ex  -  function xyz(){
+                            console.log("Function Statement");
+                       }
+
+    2.What is Function Expression ?
+        When we assign a function into a variable that is Function Expression. & We can not do Hoisting by this becz it acts like variable.
+            For Ex - var a = function(){
+                      console.log("Function Expression");
+                    }
+
+    3.What is Anonymous Function ?
+        A Function without the name is known as Anonymous Function. & It is used in a place where function are treated as value.
+            For Ex - function(){
+                     }
+
+    4.What is Named Function Expression ?
+        A function with a name is known as Named Function Expression.
+            For Ex - var a = function xyx(){
+                    console.log("Names Function Expression");
+                     }
+    5.Difference b/w Parameters and Arguments ?
+        =>When we creating a function  & put some variabels in this ( ) that is our Parameters.
+            For Ex - function ab( param1, param2 ){
+                        console.log("")
+                      }
+        => & When we call this function & pass a variabel in this ( ) that is our Arguments
+        For Ex - ab( 4, 5 );
+
+    6.What is First Class Function Or First class citizens?
+        =>The Ability of use function as a value,
+        =>Can be passed as an Argument,
+        =>Can be executed inside a closured function &
+        =>Can be taken as return form it.
+            For Ex - var b = function(param){
+                             return function xyz(){
+                                     console.log(" F C F ");
+                             }
+                     } 
+
+    7.Function are heart of JS. They are called first class citizens or first class functions because
+        they have the ability to be stored in the variables, passed as parameters and arguments. They can also be returned in the function.
+13.Call back function?
+    =>A callback function is a function that is passed as an argument to another function, and is then invoked inside that function.
+    =>It is a way of passing a function as an argument to another function.
+    => Example:
+              => setTimeOut(function(){
+                console.log("Hello");
+              },2000)
+            => setTimeOut function have the call back function as an argument.
+14.Event LooooP?
+    =>Event Loop is a single-threaded loop used to manage the asynchronous callbacks.
+15.Trust Issues with setTimeOut?
+    =>1.The setTimeout function stores it in the callback queue which is executed only after 'call stack' is empty, 
+        even if setTimeout is set to 0ms. 
+    =>2. setTimeout ensures that minimum it will take the time mentioned because it may be paused due to call stack not empty.
+16.Higher Order Functions?
+    =>A higher order function is a function that either takes a function as an argument or returns a function.
+    1. Follow DRY(Don't Repeat Yourself) principle while coding.
+    2. Use function to stop writing repeating line of codes.
+    3. Function that takes another function as argument(callback function) is known as Higher order functions.
+    4. It is this ability that function can be stored, passed and returned,  they are called first class citizens.
+    5. If we use Array.property.function-name. This function is accessible to any array in your code--> Pollyfill
+17.Map(),Fliter(),reduce()?
+    1.map():map method is used when we want transformation of whole array.
+            =>map() creates a new array from calling a function for every array element.
+            =>map() does not execute the function for empty elements.
+            =>map() does not change the original array.
+        =>Syntax: arr.map(callback)
+        => For Ex -> var arr = [1,2,3,4,5,6,7,8,9,10];
+                    let double=arr.map((ele)=>{
+                        return ele*2
+                    })
+        =>Pollyfill for map() method:
+            =>If you are using an array method that is not supported in all browsers, you can use a pollyfill.
+            =>i.e means creating our own map method
+            =>For Ex -> if(!Array.prototype.map)=>{
+                Array.prototype.map = function(callback){
+                    let arr=this;
+                    let result=[];
+                    for(let i=0;i<arr.length;i++){
+                        result.push(callback(arr[i],i,arr))
+                    }
+                    return result
+                }
+            }
+    2.Filter():filter is used when we want to filter the array to obtain required values.
+               =>The filter() method creates a new array filled with elements that pass a test provided by a function.
+               =>The filter() method does not execute the function for empty elements.
+               =>The filter() method does not change the original array.
+               =>Syntax: arr.filter(callback)
+               =>For Ex -> var arr = [1,2,3,4,5,6,7,8,9,10];
+                              let filter=arr.filter((ele)=>{
+                                           return ele%2==0;
+                                        })
+                =>Pollyfill for filter() method:
+                =>Creating our own filter method.
+                => it's only created with same name if that browers doesn't have with that method.
+                =>For Ex -> if(!Array.prototype.filter){
+                    Array.prototype.filter = function(callback){
+                        let arr=this;
+                        let result=[];
+                        for(let i=0;i<arr.length;i++){
+                            if(callback(arr[i],i,arr)){
+                                result.push(arr[i])
+                            }
+
+                        }
+                        return result
+                    }
+                }
+    3.Reduce() : reduce() method is used when we want to reduce the array to a single value.
+                =>It returns a single value
+                =>it won't modify the original array
+                =>Syntax: array.reduce(function(total, currentValue, currentIndex, arr), initialValue)
+                =>For Ex -> var arr = [1,2,3,4,5,6,7,8,9,10];
+                            let reduce=arr.reduce((prev,next)=>{
+                                        return prev+next;
+                                },0)
+                =>Pollyfill For Reduce():
+                =>If you are using an array method that is not supported in all browsers, you can use a pollyfill.
+                =>For Ex -> if(!Array.prototype.reduce){
+                    Array.prototype.reduce=function(callback,initialValue){
+                        let arr=this;
+                        let result=initialValue;
+                        for(let i=0;i<arr.length;i++){
+                            result=callback(result,arr[i],i,arr)
+                        }
+                        return result
+                    }
+                    
+                }
+18.Promises?
+
+
+
+     
