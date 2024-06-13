@@ -269,8 +269,79 @@
                     }
                     
                 }
+18.Callback Hell?
+    =>Callback Hell is a situation where you have nested callbacks.This way our code expands vertically instead of horizontally.
 18.Promises?
+    =>The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+    => A promise has 3 states: pending | fulfilled | rejected.
+    =>As soon as promise is fulfilled/rejected => It updates the empty object which is assigned undefined in pending state.
+    =>A promise resolves only once and it is immutable. 
+    =>Using .then() we can control when we call the cb(callback) function.  
+    =>Before promise we used to depend on callback functions which would result in 1. Callback Hell (Pyramid of doom) | 
+        2.Inversion of control
+    =>To avoid callback hell (Pyramid of doom) => We use promise chaining. This way our code expands vertically instead of horizontally. 
+      Chaining is done using '.then()'
+    =>Note:A very common mistake that developers do is not returning a value during chaining of promises.
+     Always remember to return a value. This returned value will be used by the next .then()
+    =>Syntax: new Promise(function(resolve,reject){})
+    =>For Ex -> var promise=new Promise((resolve,reject)=>{
+        let val=true;
+        if(val){
+            resolve("success")
+        }
+        else{
+            reject("failure)
+        }
+    })
+    promise.then((data)=>{
+        console.log(data)
+    }).catch((err)=>console.log(err))
 
+    ✅Promise Methods:
+        ☝️Promise.all(): Promise.all method allows you to run multiple promises at the same time. It waits for all of these 
+                        operations to complete and gives you the results together.if any one of the promise gives error then result should 
+                        also be error.
+                        =>Syntax: Promise.all(iterable)
+                        => Exmaple: const promise1 = Promise.resolve(3);
+                                    const promise2 = 42; // A non-promise value
+                                    const promise3 = new Promise((resolve, reject) => {resolve("foo")});
+                                    Promise.all([promise3,promise1, promise2,]).then((values) => {
+                                                            console.log(values);
+                                                            // Output: [3, 42, 'foo']
+                                                                }).catch((error) => {
+                                                                        console.log(error);
+                                                                                    });
+                        => In the example all the promises get successful and the result is also successful.if any one of the promise gives
+                            error then result should also be error.
+        ✌️.Promise.allSettled:
+                =>Waits for all promises in the iterable to settle (either fulfilled or rejected).
+                =>Returns a single promise that resolves to an array of objects describing the outcome of each promise ({status: 'fulfilled', value: ...} for fulfilled promises and 
+                  {status: 'rejected', reason: ...} for rejected promises).
+                =>Does not reject immediately if any of the promises are rejected.
+                =>Syntax: Promise.allSettled(iterable)
+                =>Example🤩: const promise1 = Promise.resolve('A');
+                           const promise2 = Promise.reject('Error B');
+                           const promise3 = Promise.resolve('C');
 
-
+                           Promise.allSettled([promise1, promise2, promise3]) 
+                      .then((results) => {console.log(results)}); Output==> {status: 'fulfilled', value: 'A'}
+                                                                            {status: 'rejected', reason: 'Error B'}
+                                                                            {status: 'fulfilled', value: 'C'}
+        👌.Promise.any:Promise.any is a method in JavaScript that takes an iterable of promises and returns a single promise. 
+           This returned promise resolves as soon as any of the input promises resolves, with the value of the first resolved promise. 
+           If none of the input promises resolve (i.e., all of them reject), then the returned promise rejects with an AggregateError, 
+           which is an error that groups together multiple individual errors.
+           =>Syntax: Promise.any(iterable)
+           =>Example🚀:const promise1 = new Promise((resolve, reject) => setTimeout(reject, 100, 'Error 1'));
+                     const promise2 = new Promise((resolve) => setTimeout(resolve, 200, 'Success 2'));
+                     const promise3 = new Promise((resolve) => setTimeout(resolve, 300, 'Success 3'));
+                    Promise.any([promise1, promise2, promise3]).then((value) => {console.log(value); //Output: "Success 2"})
+        🖖.Promise.race:Promise.race is a method in JavaScript that returns a promise that resolves or rejects as soon as one of the 
+           promises in the iterable resolves or rejects. This means it "races" all the provided promises and settles with the outcome of 
+           the first settled promise (whether fulfilled or rejected).
+           =>Syntax: Promise.race(iterable)
+           =>Example🤩:const promise1 = new Promise((resolve) => setTimeout(resolve, 500, 'First'));
+                       const promise2 = new Promise((resolve) => setTimeout(resolve, 1000, 'Second'));
+                       const promise3 = new Promise((resolve) => setTimeout(resolve, 1500, 'Third'));
+                       Promise.race([promise1, promise2, promise3]).then((value) => {console.log(value); // "First"})
      
