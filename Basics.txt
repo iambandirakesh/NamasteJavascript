@@ -271,7 +271,7 @@
                 }
 18.Callback Hell?
     =>Callback Hell is a situation where you have nested callbacks.This way our code expands vertically instead of horizontally.
-18.Promises?
+19.Promises?
     =>The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
     => A promise has 3 states: pending | fulfilled | rejected.
     =>As soon as promise is fulfilled/rejected => It updates the empty object which is assigned undefined in pending state.
@@ -344,4 +344,156 @@
                        const promise2 = new Promise((resolve) => setTimeout(resolve, 1000, 'Second'));
                        const promise3 = new Promise((resolve) => setTimeout(resolve, 1500, 'Third'));
                        Promise.race([promise1, promise2, promise3]).then((value) => {console.log(value); // "First"})
-     
+20.Async and Await?
+    =>Async and Await are two keywords that were introduced in ES6. They allow us to write asynchronous code using the
+    same syntax that we use to write synchronous code.
+    =>async and await are keywords in JavaScript that provide a more readable and manageable way to work with asynchronous code, 
+     making it look and behave more like synchronous code. They are syntactic sugar built on top of promises, making it easier to
+     write and understand asynchronous operations.
+    1.async Keyword:
+        The async keyword is used to declare an asynchronous function. This means that the function will always return a promise, 
+         and you can use the await keyword inside it to wait for other promises to resolve.
+    2.await Keyword
+        The await keyword can only be used inside async functions. It makes JavaScript wait until the promise is settled 
+        (either resolved or rejected) and returns the result. If the promise is rejected, await throws the rejected value.
+    =>Example:
+            const p1 = new Promise( (resolve, reject) =>{ 
+            setTimeout(() =>{
+  	         resolve("Promise Resolved Value!!")}, 10000);
+             });
+            const p2 = new Promise( (resolve, reject) =>{ 
+                       setTimeout(() =>{
+  	                      resolve("Promise Resolved Value!!")}, 5000);
+                                });
+            async function handlePromise(){
+	            console.log("Hello World !!")
+	            const val = await p1;
+	            console.log("Namaste Javascript")
+	            console.log(val)
+	            const val2 = await p2;
+	            console.log("Namaste Javascript 2")
+	            console.log(val2) 
+            }
+
+            handlePromise();
+
+           =>In the above condition, when p1 will resolve after 10 seconds, and p2 will resolve after 5 seconds
+             then we see that after 10 seconds it will resolve both value. 
+             As p2's setTimeout value is lesser(5 Seconds) than p1.(10 Seconds)
+
+             As you said when JavaScript fetch or reach the line of handlePromise function the following this will be happen.
+
+             1. In call stack first handlePromise is loaded and it console log the "Hello World !!"
+             2. Then it go to the next line, finds that there has been await p1.
+            3. When it saw await p1, handlePromise Function remove from call stack.
+            4. After the 10 seconds over, then Function go to call stack and start execution from where it is left.
+            5. Now the "Namaste Javascript" is print and also the val value i.e. "Promise Resolved Value!!"  
+21.What is DOM?
+    => DOM is Document Object Model.
+    =>When a web page is loaded, the browser creates a Document Object Model of the html document in the form of tree like structure.
+      so,Document will be the root of the DOM tree, and all the child tags, text, comments, and attributes will be the children of the root.
+    =>With the help of DOM, we can create, update, and delete elements and also access their properties and styles.
+22.Currying?
+    =>Currying is a technique of converting a function that takes multiple arguments into a sequence of functions that each take 
+     a single argument.
+     =>Example: function add(x,y,z){
+                return function(y){
+                    return function(z){
+                        return x+y+z;
+                    }
+                }
+        }
+        =>i.e we are converted the function is => function(x,y,z) to function(x)(y)(z)
+22.Call,Apply,Bind Methods?
+    1.Call():
+        =>Call method is used to borrow properties or methods from another object.
+        =>Syntax: object.call(thisArg, arg1, arg2,...)
+        Example:
+              let p1={
+                fname:"Rakesh",
+                lname:"Reddy"
+                printfullname:function(){
+                    console.log("I am "+this.fname+" "+this.lname);
+                }
+                p1.printfullname() //Output=> I am Rakesh Reddy
+              }
+              let p2={
+                fname:"Praveen",
+                lname:"Reddy"
+              }
+              p1.printfullname.call(p2) //Output=> I am Praveen Reddy   
+        =>Here we are calling the printfullname function of p1 object and passing p2 object as thisArg.
+        => So, in the Exmaple we are borrowing the printfullname function from p1 object and passing p2 object as thisArg.
+        => we can also pass the multiple args in the call method.
+        Exmaple:
+               let p1={
+                fname:"Hareesh",
+                lname:"Reddy"
+                printfullname:function(city,country){
+                    console.log("I am "+this.fname+" "+this.lname+"and i am from "+city+" "+country);
+                }
+               }
+               p1.printfullname("Tirupati","India") //Output=> I am Hareesh Reddy and i am from Tirupati India
+               let p2={
+                fname:"MuniChandra",
+                lname:"Reddy"
+               }
+               p2.printfullname.call(p1,"Tirupati","India") //Output=> I am Hareesh Reddy and i am from Tirupati India
+        =>so,the first arg is obj and remaining args are passed as arguments.we can passs multiple as need
+
+    2.Apply():
+        =>Apply method is used to borrow properties or methods from another object.
+        =>Apply method is also same as call method, but the only difference is that apply method takes the arguments as array list.
+                Exmaple:
+               let p1={
+                fname:"Hareesh",
+                lname:"Reddy"
+                printfullname:function(city,country){
+                    console.log("I am "+this.fname+" "+this.lname+"and i am from "+city+" "+country);
+                }
+               }
+               p1.printfullname("Tirupati","India") //Output=> I am Hareesh Reddy and i am from Tirupati India
+               let p2={
+                fname:"MuniChandra",
+                lname:"Reddy"
+               }
+               p2.printfullname.apply(p1,["Tirupati","India"]) //Output=> I am Hareesh Reddy and i am from Tirupati India
+        =>Both call and apply method functionality's are that are borrowing properties or methods from anthor object the difference 
+          call takes the arguments as the series as arguments but apply method takes the arguments as array list.
+    3.Bind():
+        =>Bind method is used to borrow properties or methods from another object.it'as also same as call.
+        =>But main difference between the call and bind is call method return value but intead of bind method will return a new function.
+        =>so,we call the function latter stage of time.
+            Exmaple:
+               let p1={
+                fname:"Hareesh",
+                lname:"Reddy"
+                printfullname:function(city,country){
+                    console.log("I am "+this.fname+" "+this.lname+"and i am from "+city+" "+country);
+                }
+               }
+               p1.printfullname("Tirupati","India") //Output=> I am Hareesh Reddy and i am from Tirupati India
+               let p2={
+                fname:"MuniChandra",
+                lname:"Reddy"
+               }
+               let val=p2.printfullname.bind(p1,["Tirupati","India"])// return's a function
+               console.log(val)//Output=> function(){console.log("I am "+this.fname+" "+this.lname+"and i am from "+city+" "+country);}.
+               val()//Output=> I am Hareesh Reddy and i am from Tirupati India
+        
+
+22.What is DOM Events?
+    =>DOM events are actions that happen when a user interacts with a web page.
+    =>JavaScript HTML DOM events are actions or occurrences that happen in the browser and can be detected and responded to by JavaScript. 
+      Events can be things like a user clicking a mouse, pressing a key, or loading a web page. Handling events is a key part of
+       making web pages interactive.
+    =>Some of the Events are:
+         =>click
+         =>change
+         =>mousehover
+         =>mouseout
+         =>mousedown
+         =>mouseup
+23.Event Listener?
+   =>Event Listener is function that listens to an event and get executed when the event happened.
+   =>Syntax: element.addEventListener(event, function);
