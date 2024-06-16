@@ -393,6 +393,8 @@
     =>When a web page is loaded, the browser creates a Document Object Model of the html document in the form of tree like structure.
       so,Document will be the root of the DOM tree, and all the child tags, text, comments, and attributes will be the children of the root.
     =>With the help of DOM, we can create, update, and delete elements and also access their properties and styles.
+22.Es6 Features?
+    =>ES6 is a new version of JavaScript that was released in 2015. It is a significant update to the language that includes new features.
 22.Currying?
     =>Currying is a technique of converting a function that takes multiple arguments into a sequence of functions that each take 
      a single argument.
@@ -497,3 +499,9 @@
 23.Event Listener?
    =>Event Listener is function that listens to an event and get executed when the event happened.
    =>Syntax: element.addEventListener(event, function);
+23.Event Bubbling,Capturing or Trickling?
+    =>Event Bubbling:The process of propagating an event from the target element to its parent element. or 
+      the process of propagating from nearest element to the farthest element.
+    =>Event Capturing:The process of propagating an event from the target element to its child element. or
+      the process of propagating from farthest element to the nearest element is called event Capturing.
+    =>StopEventPropagation():The stopEventPropagation() method is used to stop the event propagation.->Syntax:event.stopPropagation()

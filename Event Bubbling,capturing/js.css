@@ -1,0 +1,17 @@
+div {
+  min-width: 100px;
+  max-width: 500px;
+  max-height: 500px;
+  min-height: 100px;
+  padding: 30px;
+  border: 2px solid black;
+}
+.gp {
+  background-color: orange;
+}
+.p {
+  background-color: aqua;
+}
+.c {
+  background-color: brown;
+}
