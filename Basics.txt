@@ -395,6 +395,16 @@
     =>With the help of DOM, we can create, update, and delete elements and also access their properties and styles.
 22.Es6 Features?
     =>ES6 is a new version of JavaScript that was released in 2015. It is a significant update to the language that includes new features.
+    Some of the new features of ES6 are:
+    1.Arrow Functions:arrow functions are the shoter syntax functions of JavaScript. and arrow functions are not hoisted becouse arrow functions
+                      usess the Anonymous function and that are stored in the variabel 
+    2.let and cost:let and const have block scope 
+    3.Template strings:Template strings are string literals that can contain placeholders. These placeholders get replaced with actual values.
+    4.Destructuring:Destructuring is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects,
+     into distinct variables.
+    5.rest operator:rest operetor is used to accept the infinte number of parameters as an array in the function.
+        Example:allows us to copy the all the parts of a array.
+    6.spread operator:
 22.Currying?
     =>Currying is a technique of converting a function that takes multiple arguments into a sequence of functions that each take 
      a single argument.
@@ -406,6 +416,12 @@
                 }
         }
         =>i.e we are converted the function is => function(x,y,z) to function(x)(y)(z)
+22.prototype Inheritance?
+   =>inheritance in JS => When an object trying to access variables and properties of another object
+      prototype is an Object that get attach to function/method/object and this object has some hidden properties
+    =>Whenever we create object/ function/ methods/ array/ variable , these all are attached with some hidden properties, which we call prototype
+      _proto_ is reference to prototype ( or it points towards prototype ), if we want to access prototype, we do _proto_
+    =>prototype object has a prototype of its own, and so on until an object is reached with null as its prototype,  this is called prototype chaining
 22.Call,Apply,Bind Methods?
     1.Call():
         =>Call method is used to borrow properties or methods from another object.
