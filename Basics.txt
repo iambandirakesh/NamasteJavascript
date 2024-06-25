@@ -44,7 +44,7 @@
        special keyword "Undefined" and Functions are stored as it is.(Note: Arrow Functions are intialized with Undefined)
     => So, Before code Executed in th code Execution phase , all variables and functions are intialized with special keyword "Undefined"
        and functions are stored as it is.
-    => So, we can able access the variable and functions before they declaired. is called as Hoisting.
+    => So, we can able access the variable and functions before there declarations. is called as Hoisting.
     => Variable are not Hoisted,Function declarations are Hoisted
     => Example:
               console.log(a);  ==> Output: Undefined
@@ -63,7 +63,35 @@
       having its own phases and is pushed into the call stack.
     =>Once the function ends, the EC is removed from the call stack.
     =>When the program ends, even the global EC is pulled out of the call stack.
+
+6.Lexical Scope?
+    =>Lexical scope refers to how the scope of a variable is determined based on its declaration within the source code.
+6.What is Scope?
+    =>Scope refers to the context or environment in which variables are declared and accessed. It determines where a particular variable
+     is valid and accessible within your code.so the variabels accessible within their scope.in js we have multiple scopes.
+     1.Global Scope:
+         =>Variables declared outside any function become global. They are accessible from anywhere in your JavaScript program.
+         =>Example: let carName = "Volvo"; // Global scope
+                        function myFunction() {
+                           // Code here can also use carName
+                          }
+    2.Function Scope:Variables declared within a function are local to that function. They are only accessible within the function.
+        =>Functions create their own scope.
+        =>Example:function myFunction() {
+                    let carName = "Volvo"; // Function scope
+                         // Code here can use carName
+                  }
+    3.Block Scope:Variables declared with let and const have block scope.
+        =>Block scope is confined to a pair of curly braces { }
+        =>Variables declared inside a block (within { }) cannot be accessed from outside the block.
+        =>Example:{
+                  let x = 2; // Block scope
+                }
+                // x cannot be used here
+
+
 6.SHORTEST JS Program 🔥window & this keyword ?
+    => shortest program in js is i.e is empty page becouse in empty page also it except the global execution context is created.
     => window object is created by the JS engines of the respective browsers when global execution context is created.
 	=>whenever an execution context is created a "this" variable is also created.
 	=>at the global level "this" points to the global object( window object in case of browsers).
@@ -111,7 +139,7 @@
         console.log("This is called Block");
     }
 11.Closure?
-    =>Function bundled with its lexical environment is known as a closure. Whenever function is returned, 
+    =>Function bundled with its lexical environment is known as a closure. Whenever a function is returned, 
         even if its vanished in execution context but still it remembers the reference it was pointing to. 
         Its not just that function alone it returns but the entire closure
                                               or  
@@ -135,7 +163,7 @@
               let z=b();
               z() => Output==> 11 so,if we return a function even it's still Remember where it from so,it can remember it's parent scope and we can access
                                      it in outside by returning it from a function.   
-12.First Class Functions?git
+12.First Class Functions?
     1.Function statement:
         =>A normal function that we create using Naming convention. & By this we can do the Hoisting.
              For Ex  -  function xyz(){
@@ -519,3 +547,4 @@
     =>Event Capturing:The process of propagating an event from the target element to its child element. or
       the process of propagating from farthest element to the nearest element is called event Capturing.
     =>StopEventPropagation():The stopEventPropagation() method is used to stop the event propagation.->Syntax:event.stopPropagation()
+24.
