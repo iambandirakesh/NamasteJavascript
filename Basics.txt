@@ -551,3 +551,4 @@
     Throttling and Debounce is generally used for performance optimization or rate limiting the function call
     1.Debounce: the time diffrenece between each key stroke is greater than the time frame that we set than only it invoc the function.
          Example🤩: check Throttling and Debounce folder
+    2.Throttling:The time difference between the two click events is greater than the time framw that we set only invoc the function.
