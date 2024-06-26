@@ -9,14 +9,14 @@ let list = ["granddParent", "parent", "child"];
     () => {
       alert(list[idx] + " " + "Clicked");
     },
-    { once: true }
+    true
   );
 });
-document.body.addEventListener("click", (e) => {
-  e.stopPropagation();
-  alert("body " + "Clicked");
-});
+// document.body.addEventListener("click", (e) => {
+//   e.stopPropagation();
+//   alert("body " + "Clicked");
+// });
 
-document.addEventListener("click", () => {
-  alert("Document " + "Clicked");
-});
+// document.addEventListener("click", () => {
+//   alert("Document " + "Clicked");
+// });

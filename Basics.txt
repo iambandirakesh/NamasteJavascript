@@ -547,4 +547,7 @@
     =>Event Capturing:The process of propagating an event from the target element to its child element. or
       the process of propagating from farthest element to the nearest element is called event Capturing.
     =>StopEventPropagation():The stopEventPropagation() method is used to stop the event propagation.->Syntax:event.stopPropagation()
-24.
+24.Throttling and Debounce?
+    Throttling and Debounce is generally used for performance optimization or rate limiting the function call
+    1.Debounce: the time diffrenece between each key stroke is greater than the time frame that we set than only it invoc the function.
+         Example🤩: check Throttling and Debounce folder
