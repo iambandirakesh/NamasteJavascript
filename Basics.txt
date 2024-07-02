@@ -298,7 +298,7 @@
                     
                 }
 18.Callback Hell?
-    =>Callback Hell is a situation where you have nested callbacks.This way our code expands vertically instead of horizontally.
+    =>Callback Hell is a situation where you have nested callbacks.This way our code expands horizontally instead of vertically.
 19.Promises?
     =>The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
     => A promise has 3 states: pending | fulfilled | rejected.
@@ -551,4 +551,4 @@
     Throttling and Debounce is generally used for performance optimization or rate limiting the function call
     1.Debounce: the time diffrenece between each key stroke is greater than the time frame that we set than only it invoc the function.
          Example🤩: check Throttling and Debounce folder
-    2.Throttling:The time difference between the two click events is greater than the time framw that we set only invoc the function.
+    2.Throttling:The time difference between the two click events is greater than the time frame that we set than only invoc the function.
