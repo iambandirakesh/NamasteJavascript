@@ -65,6 +65,7 @@
     =>When the program ends, even the global EC is pulled out of the call stack.
 
 6.Lexical Scope?
+    =>the lexical scope is the local memory along with the reference of its parent.
     =>Lexical scope refers to how the scope of a variable is determined based on its declaration within the source code.
 6.What is Scope?
     =>Scope refers to the context or environment in which variables are declared and accessed. It determines where a particular variable
@@ -110,6 +111,8 @@
        data types like in C++ and java.
     =>Remember undefined !== not defined.
 8.The Scope Chain, 🔥Scope & Lexical Environment ?
+    =>Lexical Environment: The lexical environment is the local memory along with the lexical environment of its parent.
+    => Lexical Scope : the lexical scope is the local memory along with the reference of its parent.
     =>1. Scope of a variable is directly dependent on the lexical environment.
     =>2.Whenever an execution context is created, a lexical environment is created. 
         Lexical environment is the local memory along with the lexical environment of its parent.
