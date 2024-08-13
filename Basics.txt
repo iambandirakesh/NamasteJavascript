@@ -16,7 +16,7 @@
     **For Better Understanding refer this website : https://ui.dev/javascript-visualizer
     Note-
         JavaScript is a synchronous single-threaded language 
-      -Single threaded means JavaScript can execute once command at a time
+      -Single threaded means JavaScript can execute one command at a time
       -Synchronous single-threaded that means JavaScript can execute one command at a time in a specific order.
 3.How JavaScript execute?
     1. Whenever any JavaScript code execution started an  Global Execution Context is created and pushed into the callStack.

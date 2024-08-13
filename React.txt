@@ -1,0 +1,105 @@
+1.What is react?
+    =>React is a javascript library for building user interfaces.
+2.React Hooks?
+    =>Hooks were added to React in version 16.8.They let you use state and other React features without writing a class.
+    =>Hooks allow function components to have access to state and other React features. Because of this,
+      class components are generally no longer needed.
+    =>React Hooks are functions that let you “hook into” React state and lifecycle features from function components.
+    Hook Rules:
+      =>Hooks can only be called inside React function components.
+      =>Hooks can only be called at the top level of a component.
+      =>Hooks cannot be conditional
+      React hooks are :
+      =>useState()
+      =>useEffect()
+      =>useContext()
+      =>useReducer()
+      =>useRef()
+      =>useCallback()
+      =>useMemo()
+    1.useState():
+        =>The React useState Hook allows us to track state in a function component.
+        =>useState() is a Hook that allows you to have state variables in functional components.
+        =>To use the useState Hook, we first need to import it into our component
+        =>We initialize our state by calling useState in our function component.
+        =>useState accepts an initial state and returns two values:
+             =>The current state.
+             =>A function that updates the state.
+        Example:
+            import React, { useState } from 'react';
+            function Example() {
+                const [count, setCount] = useState(0);
+                return (
+                    <div>
+                    <p>You clicked {count} times</p>
+                    <button onClick={() => setCount(count + 1)}>
+                    Click me
+                    </button>
+                    </div>
+                )
+            }
+            =>In the example above, count is a state variable, and setCount is a state setter function.
+            =>useState is a Hook that allows you to have state variables in functional components.
+    2.useEffect():
+        =>The React useEffect Hook allows you to perform side effects in your components.
+        =>Some examples of side effects are: fetching data, directly updating the DOM, and timers.
+        =>useEffect accepts two arguments. The second argument is optional.
+        => first argument is a function that execute based on the dependency array.
+        =>second argument is an array of dependencies.
+        =>If the second argument is an empty array, the effect is run once after the initial render.
+        =>If the second argument is not provided, the effect is run after every re-render.
+        =>If the second argument is an array with one or more values, the effect is run after
+          the initial render and when one of the values in the array changes.
+        Example:
+            import React, { useState, useEffect } from 'react';
+            function Example() {
+                const [count, setCount] = useState(0);
+                useEffect(() => {
+                    document.title = `You clicked ${count} times`;
+                    return (
+                        <div>
+                        <p>You clicked {count} times</p>
+                        <button onClick={() => setCount(count + 1)}>
+                        Click me
+                        </button>
+                        </div>
+                    )
+                }, [count]);
+            }
+        => In the example above, useEffect is called after every render with the empty array as the second argument.
+        =>This means that useEffect is called after the initial render and after every update.
+    3.useContext():
+        =>The React useContext Hook allows you to access the context in a functional component.
+        => Context is a way to pass data through the component tree without having to pass props down manually at every level.
+        =>useContext solves the problem of prop drilling.
+        Prop Drilling:
+            =>Prop drilling is the process of passing data from a parent component to a nested child components.
+            =>it create the problem when passing data from hierarchy of components.
+            =>so,it increase the complexity of the code.
+            =>it is not a good practice to pass data from parent to child component.
+    4.useReducer():
+    5.useRef():
+        =>The React useRef Hook allows you to persist values between renders.
+        =>It can be used to store a mutable value that does not cause a re-render when updated.
+        =>It can be used to access a DOM element directly.
+        =>This hook allows us to create the mutable object.it is used when a value is keep changes, just like in the case
+           of of useState.But the only difference is that it does not trigger a re-render when the value changes.
+        Example:
+            import React, { useRef } from 'react';
+            function App() {
+                const inputRef = useRef(null);
+                const handleClick = () => {
+                    inputRef.current.focus();
+                    return (
+                        <div>
+                        <input ref={inputRef} type="text" />
+                        <button onClick={handleClick}>Focus Input</button>
+                        </div>
+                    )
+                }
+            }
+       =>In the example above, useRef is used to create a mutable object that does not cause a re-render when updated.
+       =>It can be used to store a mutable value that does not cause a re-render when updated.
+    6.useMemo():
+        =>The React useMemo Hook returns a memoized value.
+        =>The useMemo Hook only runs when one of its dependencies update.
