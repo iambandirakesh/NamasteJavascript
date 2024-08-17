@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
 const QuizApp = () => {
-  const [currentQuestion, setCurrentQuestion] = React.useState(1);
-  const [currentOption, setCurrentOption] = React.useState(null);
-  const [userAnswer, setUserAnswer] = React.useState([]);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentOption, setCurrentOption] = useState();
+  const [score, setScore] = useState(null); // State to hold the score
+  const userAnswers = useRef([]);
   const Questions = [
     {
       id: 0,
@@ -66,47 +67,75 @@ const QuizApp = () => {
       answer: "Yen",
     },
   ];
+  const CalculateScore = () => {
+    let UserScore = 0;
+    userAnswers.current.forEach((ele, idx) => {
+      if (ele === Questions[idx].answer) {
+        UserScore += 1;
+      }
+    });
+    setScore(UserScore); // Update the score state
+  };
+
   const handleSubmit = () => {
     if (currentOption) {
-      setUserAnswer([
-        ...userAnswer,
-        Questions[currentOption].options[currentOption],
-      ]);
-      setCurrentQuestion(currentQuestion + 1);
-      setCurrentOption(null);
+      userAnswers.current.push(currentOption);
+      if (currentQuestion === Questions.length - 1) {
+        CalculateScore();
+      } else {
+        setCurrentQuestion(currentQuestion + 1);
+        setCurrentOption(null);
+      }
     } else {
       alert("Please select an option");
     }
   };
+
+  if (score !== null) {
+    return (
+      <div className="question-container">
+        <h1>Quiz App</h1>
+        <h2>
+          Your Score: {score}/{Questions.length}
+        </h2>
+      </div>
+    );
+  }
+
   return (
     <div className="question-container">
       <h1>Quiz App</h1>
-      <div>
-        <h2>
-          Q{currentQuestion}. {Questions[currentQuestion].question}
-        </h2>
-      </div>
+      <h2>
+        Q{currentQuestion + 1}. {Questions[currentQuestion].question}
+      </h2>
       <div className="options">
         {Questions[currentQuestion].options.map((option, idx) => (
           <button
             key={idx}
-            className={currentOption === idx ? "option bg-green" : "option"}
-            onClick={() => setCurrentOption(idx)}
+            className={currentOption === option ? "option bg-green" : "option"}
+            onClick={() => {
+              setCurrentOption(option);
+            }}
           >
             {option}
           </button>
         ))}
       </div>
       <div className="submit-handle">
+        <button className="option" onClick={handleSubmit}>
+          {currentQuestion === Questions.length - 1
+            ? "Submit"
+            : "Save & Next Question"}
+        </button>
         <button
           className="option"
           onClick={() => {
-            handleSubmit();
+            setCurrentQuestion(currentQuestion + 1);
+            setCurrentOption(null);
           }}
         >
-          {currentQuestion + 1 === 10 ? "Submit" : "Next Question"}
+          Skip
         </button>
-        <button className="option">Skip</button>
       </div>
     </div>
   );

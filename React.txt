@@ -77,6 +77,47 @@
             =>it create the problem when passing data from hierarchy of components.
             =>so,it increase the complexity of the code.
             =>it is not a good practice to pass data from parent to child component.
+        Example:
+            => we create the context using createConext()
+            => we consume the data by using the useContext()
+                import { useState, createContext, useContext } from "react";
+                import ReactDOM from "react-dom/client";
+
+                const UserContext = createContext();
+
+                function Component1() {
+                    const [user, setUser] = useState("Jesse Hall");
+
+                    return (
+                        <UserContext.Provider value={user}>
+                            <h1>{`Hello ${user}!`}</h1>
+                            <Component2 />
+                        </UserContext.Provider>
+                    );
+                }
+
+                function Component2() {
+                    return (
+                        <>
+                            <h1>Component 2</h1>
+                            <Component5 />
+                        </>
+                    );
+                }
+
+                function Component5() {
+                    const user = useContext(UserContext);
+
+                    return (
+                        <>
+                            <h1>Component 5</h1>
+                            <h2>{`Hello ${user} again!`}</h2>
+                        </>
+                    );
+                }
+
+                const root = ReactDOM.createRoot(document.getElementById('root'));
+                root.render(<Component1 />);
     4.useReducer():
     5.useRef():
         =>The React useRef Hook allows you to persist values between renders.
@@ -103,3 +144,88 @@
     6.useMemo():
         =>The React useMemo Hook returns a memoized value.
         =>The useMemo Hook only runs when one of its dependencies update.
+        =>useMemo used for performance optimaization
+        =>it's used to optimize performance by avoiding unnecessary re-calculation of expensive operations.
+        Example:
+             => import React,{useMemo,useState} from 'react';
+                function ExpensiveComponent({a,b}){
+                    const result = useMemo(()=>{
+                        return a*b;
+                    },[a,b])
+                }
+                return <div>Result:{result}</div>
+    7.useCallback():
+        =>The React useCallback Hook returns a memoized callback function.
+        =>Skipping re-rendering of components
+        =>Updating state from a memoized callback
+        =>Preventing an Effect from firing too often
+        =>Optimizing a custom Hook
+        =>useCallback is used to optimize performance by avoiding unnecessary re-rendering of components.
+    8.Custom Hook():
+        => By using custom hooks, we can able to create the our custom hooks like useState, useEffect,so it make our component  reusable.
+        => we can create the custom hooks by using the function that starts with use.
+        Example:
+        Creating Custom Hook:
+            import { useState } from 'react'
+             // Custom hook for counter functionality
+            function useCounter(initialValue = 0) {
+                const [count, setCount] = useState(initialValue) // State to keep track of count
+                // Function to increment count
+                const increment = () => setCount(prevState => prevState + 1)
+                // Returns count and increment function
+                return [count, increment]
+            }
+        Using the custom Hook:
+            import React from 'react';
+            import useCounter from './useCounter'
+            // Component using the useCounter Hook
+            function CounterComponent() {
+                const [count, increment] = useCounter() // Utilizing useCounter
+                return (
+                    <div>
+                        <p>Count: {count}</p>
+                        <button onClick={increment}>Increment</button>
+                    </div>
+                )
+            }
+3.Redux?
+    =>Redux is a predictable state management library for JavaScript apps.commonly used with react but can be used with any other JavaScript framework or library 
+       It helps to manage the state of an application in a consistent way, making it easier to develop, test, and debug.
+    How Redux Works:
+    1.Actions:
+       => Actions are plain JavaScript objects that describe a change or an event that has occurred in the application.
+       =>An action typically has a type property that indicates the type of action that has occurred.
+       =>The action object can also have a payload property that holds the data that is associated with the action.
+       =>Actions are sent to the store using the store.dispatch() method.
+       Example:
+           const incrementAction = { type: 'INCREMENT' };
+           const addTodoAction = { type: 'ADD_TODO', payload: 'Learn Redux' };
+    2.Reducers:
+        =>A reducer is a function that accepts two arguments: the current state and an action and return a new state.
+        =>The reducer will decide how the application state changes in response to the action.
+        =>The reducer will receive the current state and an action, and it will return a new state.
+        Example:
+                const initialState = { count: 0 };
+
+                function counterReducer(state = initialState, action) {
+                    switch (action.type) {
+                    case 'INCREMENT':
+                        return { count: state.count + 1 };
+                    case 'DECREMENT':
+                        return { count: state.count - 1 };
+                    default:
+                        return state;
+                    }
+                }
+    3.Store:
+        =>The store is the object that holds the state of an application.it is created using the 'createStore' function from Redux.
+           The store provides methods to access the state, dispatch actions, and subscribe to changes.
+           Example:
+               import { createStore } from 'redux';
+               const store = createStore(counterReducer);
+            console.log(store.getState()); // { count: 0 }
+    4.Dispatching Actions:
+        =>The store’s dispatch method is used to send actions to the reducer.
+        Example:
+            store.dispatch({ type: 'INCREMENT' });
+            console.log(store.getState()); // { count: 1 }

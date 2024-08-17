@@ -106,6 +106,7 @@ button {
   align-items: center;
   gap: 40px;
   padding: 10px;
+  border-radius: 5px;
 }
 .options {
   display: flex;
@@ -125,4 +126,36 @@ button {
   display: flex;
   flex-direction: row;
   gap: 10px;
+}
+.pagination-container {
+  height: 400px;
+  width: 650px;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  align-items: center;
+}
+.todo {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.todos {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 400px;
+  width: 650px;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  align-items: center;
 }

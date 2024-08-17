@@ -1,8 +1,11 @@
-import logo from "./logo.svg";
 import "./App.css";
-
+import Component1 from "./useContext/Component1";
 function App() {
-  return <div className="App"></div>;
+  return (
+    <div className="App">
+      <Component1 />
+    </div>
+  );
 }
 
 export default App;
