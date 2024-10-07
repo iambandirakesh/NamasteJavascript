@@ -72,7 +72,7 @@
      is valid and accessible within your code.so the variabels accessible within their scope.in js we have multiple scopes.
      1.Global Scope:
          =>Variables declared outside any function become global. They are accessible from anywhere in your JavaScript program.
-         =>Example: let carName = "Volvo"; // Global scope
+         =>Example: var carName = "Volvo"; // Global scope
                         function myFunction() {
                            // Code here can also use carName
                           }

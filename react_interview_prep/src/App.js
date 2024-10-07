@@ -6,17 +6,18 @@ import QuizApp from "./components/QuizApp";
 import Timer from "./components/Timer";
 import LearnTailwind from "./components/LearnTailwind";
 import TodoApplication from "./components/TodoApplication";
+import SliderComponent from "./components/Slider";
 function App() {
   return (
     <div className="App">
-      <h1>Interview Prep</h1>
-      <Timer />
+      {/* <Timer />
       <Accordian />
       <Boxes />
       <QuizApp />
       <Main />
       <LearnTailwind />
-      <TodoApplication />
+      <TodoApplication /> */}
+      <SliderComponent />
     </div>
   );
 }
