@@ -302,6 +302,45 @@
                 }
 18.Callback Hell?
     =>Callback Hell is a situation where you have nested callbacks.This way our code expands horizontally instead of vertically.
+    =>When a function is passed as an argument to another function, it becomes a callback function. This process continues 
+       and there are many callbacks inside another's Callback function. This grows the code horizontally
+       instead of vertically. That mechanism is known as callback hell.
+    Example🤩:
+        function createOrder(cart,callback){
+            chackValidCart(cart,(err,validCart)=>{
+                if(err){
+                    callback('Cart validation failed');
+                }
+                else{
+                    processPayment(validCart,(err,paymentStatus)=>{
+                        if(err){
+                            callback('Payment failed');
+                        }
+                        else if(!paymentStatus.success){
+                            callback('Payment failed');
+                        }
+                        else{
+                            paymentConfirmation(paymentStatus,(err,confirmation)=>{
+                                if(err){
+                                    callback('Payment confirmation failed');
+                                }
+                                else{
+                                    callback(121,'Payment successful');
+                                }
+                        }
+                    }
+                }
+            })
+        } 
+        //Example
+        createOrder(cart,function(err,orderId){
+           if(err){
+            console.log('Error while creating order');
+           }
+           else{
+            console.log('Order created successfully');
+           }
+        }
 19.Promises?
     =>The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
     => A promise has 3 states: pending | fulfilled | rejected.
@@ -330,10 +369,10 @@
 
     ✅Promise Methods:
         ☝️Promise.all(): Promise.all method allows you to run multiple promises at the same time. It waits for all of these 
-                        operations to complete and gives you the results together.if any one of the promise gives error then result should 
+                        operations to complete and gives you the results together.if any one of the promise rejected then result should 
                         also be error.
                         =>Syntax: Promise.all(iterable)
-                        => Exmaple: const promise1 = Promise.resolve(3);
+                        => Exmaple1: const promise1 = Promise.resolve(3);
                                     const promise2 = 42; // A non-promise value
                                     const promise3 = new Promise((resolve, reject) => {resolve("foo")});
                                     Promise.all([promise3,promise1, promise2,]).then((values) => {
@@ -343,7 +382,15 @@
                                                                         console.log(error);
                                                                                     });
                         => In the example all the promises get successful and the result is also successful.if any one of the promise gives
-                            error then result should also be error.
+                            error then result should also be error. 
+
+                        =>Example2: const promise1 = Promise.resolve(3);
+                        const promise2 = 42; // A non-promise value
+                        const promise3 = new Promise((resolve, reject) => {reject("foo")});
+                        Promise.all([promise3,promise1, promise2,]).then((values) => {
+                            console.log(values);
+                            // Output: foo
+                        }).catch((err)=>console.log(err))
         ✌️.Promise.allSettled:
                 =>Waits for all promises in the iterable to settle (either fulfilled or rejected).
                 =>Returns a single promise that resolves to an array of objects describing the outcome of each promise ({status: 'fulfilled', value: ...} for fulfilled promises and 
@@ -362,6 +409,7 @@
            This returned promise resolves as soon as any of the input promises resolves, with the value of the first resolved promise. 
            If none of the input promises resolve (i.e., all of them reject), then the returned promise rejects with an AggregateError, 
            which is an error that groups together multiple individual errors.
+           => it also generate the AggregateError if all the promises are rejected.
            =>Syntax: Promise.any(iterable)
            =>Example🚀:const promise1 = new Promise((resolve, reject) => setTimeout(reject, 100, 'Error 1'));
                      const promise2 = new Promise((resolve) => setTimeout(resolve, 200, 'Success 2'));
