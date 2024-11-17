@@ -19,7 +19,7 @@
       -Single threaded means JavaScript can execute one command at a time
       -Synchronous single-threaded that means JavaScript can execute one command at a time in a specific order.
 3.How JavaScript execute?
-    1. Whenever any JavaScript code execution started an  Global Execution Context is created and pushed into the callStack.
+    1. Whenever any JavaScript code execution started a Global Execution Context is created and pushed into the callStack.
     2. An Execution Context is basically a box which has two components called Memory Component(Variable Environment) and 
     Code Component(Thread Of Execution).
     3. The Execution context is created in two phases
@@ -224,6 +224,22 @@
     =>1.The setTimeout function stores it in the callback queue which is executed only after 'call stack' is empty, 
         even if setTimeout is set to 0ms. 
     =>2. setTimeout ensures that minimum it will take the time mentioned because it may be paused due to call stack not empty.
+15.1. setInterval()?:
+    =>The setInterval() method calls a function at specified intervals (in milliseconds).
+    =>The setInterval() method will continue calling the function until clearInterval() is called, or the window is closed.
+     Syntax:
+        myInterval = setInterval(function, milliseconds);
+        to clear the setInterval, we can use clearInterval() method.
+        clearInterval(myInterval);
+    Example:
+        setInterval(myTimer, 1000);
+        function myTimer() {
+            const date = new Date();
+            document.getElementById("demo").innerHTML = date.toLocaleTimeString();
+        }
+        function myStopFunction() {
+            clearInterval(myInterval);
+        }
 16.Higher Order Functions?
     =>A higher order function is a function that either takes a function as an argument or returns a function.
     1. Follow DRY(Don't Repeat Yourself) principle while coding.
@@ -483,7 +499,8 @@
      into distinct variables.
     5.rest operator:rest operetor is used to accept the infinte number of parameters as an array in the function.
         Example:allows us to copy the all the parts of a array.
-    6.spread operator:
+    6.spread operator:The JavaScript spread operator (...) allows us to quickly copy all or part of an existing array or 
+      object into another array or object.
 22.Currying?
     =>Currying is a technique of converting a function that takes multiple arguments into a sequence of functions that each take 
      a single argument.
@@ -577,6 +594,29 @@
                let val=p2.printfullname.bind(p1,["Tirupati","India"])// return's a function
                console.log(val)//Output=> function(){console.log("I am "+this.fname+" "+this.lname+"and i am from "+city+" "+country);}.
                val()//Output=> I am Hareesh Reddy and i am from Tirupati India
+22.What is Coercion in js ?
+    =>Coercion in JavaScript refers to the automatic or implicit conversion of a value from one data type to another.
+    =>It occurs in various scenarios, particularly during comparisons or arithmetic operations.
+    =>Types of Coercion:
+        1.Implicit Coercion:
+            =>Happens automatically during operations where different types interact.
+            Example:
+                console.log('5' - 2); // Output: 3 ('5' is coerced to a number)
+                console.log('5' + 2); // '52' (2 is coerced to a string)
+                console.log(true + 1); // 2 (true is coerced to 1)
+        2.Explicit Coercion:
+            =>The developer manually converts a value from one type to another using functions or operators.
+            Example:
+                console.log(Number('5')); // 5 (string '5' is coerced to a number)
+                console.log(String(5)); // '5' (number 5 is coerced to a string)
+                console.log(Boolean(0)); // false (0 is coerced to false)
+23.what is Dynamic Typing in js?
+    =>Javascript is a dynamic typing language. When you declare a variable, you do not need to specify what type this variable is. 
+      Javascript engine infers what type this variable is based on the value assigned to at run time.
+      Example:
+         let a=10; // a is inferred as a number type.
+         let b="Hello"; // b is inferred as a string type.
+         let c=true; // c is inferred as a boolean type.
 22.What is DOM Events?
     =>DOM events are actions that happen when a user interacts with a web page.
     =>JavaScript HTML DOM events are actions or occurrences that happen in the browser and can be detected and responded to by JavaScript. 
