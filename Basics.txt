@@ -440,11 +440,8 @@
                        const promise3 = new Promise((resolve) => setTimeout(resolve, 1500, 'Third'));
                        Promise.race([promise1, promise2, promise3]).then((value) => {console.log(value); // "First"})
 20.Async and Await?
-    =>Async and Await are two keywords that were introduced in ES6. They allow us to write asynchronous code using the
-    same syntax that we use to write synchronous code.
-    =>async and await are keywords in JavaScript that provide a more readable and manageable way to work with asynchronous code, 
-     making it look and behave more like synchronous code. They are syntactic sugar built on top of promises, making it easier to
-     write and understand asynchronous operations.
+    =>async and await are keywords in JavaScript that provide a more readable and declarative way to work with asynchronous code.
+      They are syntactic sugar over Promises and make asynchronous code look like synchronous code, improving readability and reducing callback hell..
     1.async Keyword:
         The async keyword is used to declare an asynchronous function. This means that the function will always return a promise, 
          and you can use the await keyword inside it to wait for other promises to resolve.

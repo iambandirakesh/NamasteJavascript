@@ -64,5 +64,79 @@
 //   test2();
 // }
 // test();
-let val = 5 + "5";
-console.log(typeof val);
+// let val = 5 + "5";
+// console.log(typeof val);
+// //CallBack Hell
+// setTimeout(() => {
+//   setTimeout(() => {
+//     setTimeout(() => {
+//       setTimeout(() => {
+//         console.log("Hello World4");
+//       }, 1000);
+//       console.log("Hello World3");
+//     }, 1000);
+//     console.log("Hello World2");
+//   }, 1000);
+//   console.log("Hello World1");
+// }, 1000);
+let arr = [1, 2, [3, 4, [5, 6, 7, [8, [9, 10]]]]];
+let newArr = [];
+function flattenArr(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    if (typeof arr[i] !== "number") {
+      flattenArr(arr[i]);
+    } else {
+      newArr.push(arr[i]);
+    }
+  }
+}
+flattenArr(arr);
+console.log(newArr);
+//Debounce
+// const handlekeyUp = () => {
+//   console.log("Fetching Data...");
+// };
+// const debounce = (func, delay) => {
+//   let timer;
+//   return function (args) {
+//     clearTimeout(timer);
+//     timer = setTimeout(() => {
+//       func(args);
+//     }, delay);
+//   };
+// };
+// let betterFunction = debounce(handlekeyUp, 4000);
+// //Throttling
+// const handleClick = () => {
+//   console.log("Clicked");
+// };
+// const throttling = (func, delay) => {
+//   let flag = true;
+//   return function (args) {
+//     let context = this;
+//     if (flag) {
+//       flag = false;
+//       setTimeout(() => {
+//         func(context, args);
+//         flag = true;
+//       }, delay);
+//     }
+//   };
+// };
+function sum(a) {
+  // Inner function to hold the current sum
+  let currentSum = a;
+  function inner(b) {
+    if (b) {
+      currentSum += b;
+      return inner;
+    }
+    return currentSum;
+  }
+  return inner;
+}
+
+// Example Usage
+console.log(sum(1)(2)(3)(4)()); // Outputs: 10
+console.log(sum(5)(10)()); // Outputs: 15
+console.log(sum(100)()); // Outputs: 100
