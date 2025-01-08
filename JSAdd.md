@@ -224,6 +224,18 @@ console.log(a); //[0, 2, 8, 15]
 
 ### Shallow Copy Vs Deep Copy:
 
+#### Deep Copy:
+
+- The value of the original variable is copied into new variable and there will not be any relation between new variable and original values.
+- If we change we change the new value the original value is unchanged.
+
+#### Shallow Copy:
+
+- In the Shallow copy only reference of a original variable is copied.
+- so if we change the new variable will effects the original value.
+- in the JavaScript, when we copy the values, the primitive are get deep copied.
+- Non-primitive values are only copy the reference they only get shallow copied.
+
 ### What is JSON?
 
 - it stands for JavaScript Object Notation.
@@ -429,6 +441,7 @@ console.log(firstVal); // 2
 **5. reduce():**
 
 - reduce method is used when we want reduce the array into a single value.
+- if we does not pass the intialvalue the _array[0]_ value is taken as the intialvalue.
 - does not change the original array.
 - does not execute for empty elements.
 
@@ -501,6 +514,8 @@ console.log(val); //true
 - it returns selected elements in an array, as a new array.
 - it selects from a given start, up to a (not inclusive) given end.
 - does not change the original array.
+- splice method does not work for the negative elements.
+- slice method is also same as splice but slice method works for negative elements.
 
 **syntax**
 
@@ -511,9 +526,29 @@ array.slice(start, end); // end not inclusive
 **Example:**
 
 ```javascript []
+//Example 1:
 let arr = [12, 13, 15, 67, 89, 09];
-let newArr = arr.slice(0, 3);
+let newArr = arr.splice(0, 3);
 console.log(newArr); //[12,13,15]
+//Example 2:
+let result = arr.splice(4);
+console.log(result); // [89,9]
+//Example 3:
+result = arr.splice(-4);
+console.log(result); //[15, 67, 89, 9]
+result = arr.splice(0, -4);
+console.log(result); // []
+```
+
+**Example for slice method:**
+
+````javascript []
+let arr = [1,2,3,4,5,6,7];
+let result = arr.slice(0,-2);
+console.log(result) //[1,2,3,4,5]  -> -2 means it removes the 2 elements fom the end
+// same example for splice
+let result2 = arr.splice(0,-2)
+console.log(result2) //[] -> it give empty array because it does not execute for negative values
 ```
 
 **9. shift():**
@@ -526,7 +561,7 @@ console.log(newArr); //[12,13,15]
 
 ```javascript []
 array.shift();
-```
+````
 
 **Example:**
 
@@ -540,6 +575,7 @@ console.log(arr); //[2,3,4]
 
 - it concatenates sub-array elements.
 - it is used to flatten the array.
+- if you does not mentioned the depth then it will taken as depth is '1'.
 
 **syntax**
 
@@ -553,6 +589,11 @@ array.flat(depth);
 const myArr = [1, 2, [3, [4, 5, 6], 7], 8];
 const newArr = myArr.flat(2);
 console.log(newArr); //[1, 2, 3, 4, 5, 6, 7, 8]
+//Example 2:
+
+const myArr = [1, 2, [3, [4, 5, 6], 7], 8];
+const newArr = myArr.flat();
+console.log(newArr); //[1, 2, 3, [4, 5, 6], 7, 8]
 ```
 
 **11. reverse():**
