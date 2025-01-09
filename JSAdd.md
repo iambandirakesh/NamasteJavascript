@@ -965,8 +965,10 @@ console.log(newS); //"Hell
 **17. charAt():**
 
 - returns a character at a specified position/index
-
-**Example:**
+- if we don't mention any position then it will default value will take that is 0 index.
+- if we give negative index it will give 'undefined'.
+  ![alt text](image.png)
+  **Example:**
 
 ```javascript []
 let string = "Hello World!";
@@ -976,6 +978,9 @@ console.log(string.charAt(7)); // "W"
 **18. charCodeAt():**
 
 - returns a unicode / ASCII value at a specified index
+- if we don't mention any position then it will default value will take that is 0 index.
+- if we give negative index it will give 'undefined'.
+  ![alt text](image-1.png)
 
 **Example:**
 
@@ -1029,6 +1034,7 @@ let person2 = {
   lastName: "Praveen",
 };
 Object.assign(person1, person2);
+console.log(person1); // {firstName: 'Bandi', lastName: 'Praveen', age: 21}
 ```
 
 **02. create():**
