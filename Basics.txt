@@ -426,7 +426,7 @@
            If none of the input promises resolve (i.e., all of them reject), then the returned promise rejects with an AggregateError, 
            which is an error that groups together multiple individual errors.
            => it also generate the AggregateError if all the promises are rejected.
-           =>Syntax: Promise.any(iterable)
+          get =>Syntax: Promise.any(iterable)
            =>Example🚀:const promise1 = new Promise((resolve, reject) => setTimeout(reject, 100, 'Error 1'));
                      const promise2 = new Promise((resolve) => setTimeout(resolve, 200, 'Success 2'));
                      const promise3 = new Promise((resolve) => setTimeout(resolve, 300, 'Success 3'));

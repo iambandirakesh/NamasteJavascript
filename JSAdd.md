@@ -335,6 +335,10 @@ In the above example 'HigherOrderFunction' is a HOF function because it accepts 
 #### What is a callback function?
 
 - A callback function is a function that can be as an argument to the another function.
+  ![alt text](image-3.png)
+- JavaScript runs code sequentially in top-down order. However, there are some cases that code runs (or must run) after something else happens and also not sequentially. This is called asynchronous programming.
+- Callbacks make sure that a function is not going to run before a task is completed but will run right after the task has completed. It helps us develop asynchronous JavaScript code and keeps us safe from problems and errors.
+- In JavaScript, the way to create a callback function is to pass it as a parameter to another function, and then to call it back right after something has happened or some task is completed.
   **Example**
 
 ```javascript []
@@ -1216,3 +1220,373 @@ z() => Output==> 11
 
 - so,if we return a function even it's still Remember where it from so,it can remember it's parent scope and we can access
 - it in outside by returning it from a function.
+
+## Asynchronous JavaScript:
+
+#### 1.Callback Function:
+
+- callback function is a functions that can be passed an argument to the another function or function takes another function as a parameter is called callback function.
+  ![alt text](image-2.png)
+
+**Example**
+
+```javascript []
+let cb = () => {
+  console.log("After 2 seconds"); //callback function
+};
+setTimeout(cb, 2000);
+```
+
+### Types of Functions in JavaScript.
+
+- In JavaScript, there are several types of functions that serve different purposes and are used in various contexts. Here are the main types:
+
+#### Named Functions:
+
+- These are the functions that have a name and can be called by referencing that name.
+- They are defined using the function keyword followed by the name of the function and it's parameters.
+
+```javascript []
+function helloWorld() {
+  console.log("Hello World!");
+}
+helloWorld(); // Outputs 'Hello World!'
+```
+
+#### Anonymous Functions:
+
+- Anonymous Function means a function without a name is called an Anonymous Function.
+
+**Example**
+
+```javascript []
+//normal js declarations
+function() {
+  // Function Body
+}
+//ES6 declarations -> Arrow Functions
+() => {
+  // Function Body
+}
+(function (){
+  console.log("i am an Anonymous Function (:" )
+}())
+```
+
+#### Arrow Functions:
+
+- arrow functions are introduced in the in the ES6 and it is a shorter syntax functions.
+- it makes to define the function in simple and easy way.
+
+```javascript []
+const square = (num) => num * num;
+console.log(square(5)); // Outputs 25
+```
+
+#### Constructor Function:
+
+- These functions are used to create the objects.
+- They are typically used with new keyword and function name start with the capital letter.
+- constructor functions initialize the properties and methods of an object they create.
+
+```javascript []
+function Person(name) {
+  this.name = name;
+}
+const john = new Person("Alex");
+console.log(john.name); // Outputs 'Alex'
+```
+
+#### IIFE (Immediately Invoked Function Expression):
+
+- These are the functions that are immediately invoked after they defined.
+- These are often used to encapsulate code avoid polluting the global name space.
+- function should wrapped inside the `()`
+
+```javascript []
+(function () {
+  console.log("This function is immediately invoked");
+})();
+```
+
+#### Async Functions:
+
+- These functions are start with `async` keyword and allows us to write the asynchronous code in a more readable way using the `await` keyword.
+- They are particularly useful for handling the asynchronous operations like network operations or fetching the data from the api.
+- Async function always return a `Promise`
+
+```javascript []
+async function fetchData() {
+  let data = await fetch("https://api.example.com/data");
+  return data.json();
+}
+fetchData.then((data) => console.log(data));
+```
+
+#### Generator Functions:
+
+- These functions use the `function*` syntax and `yield` keyword to generate the sequence of values.
+- They can be paused and resumed, making them useful for operations that need to be broken down into smaller, manageable parts.
+
+```javascript []
+function* generator(i) {
+  yield i;
+  yield i + 10;
+}
+const gen = generator(5);
+console.log(gen.next().value); // Outputs 5
+console.log(gen.next().value); // Outputs 15
+```
+
+```javascript []
+function* generateIds() {
+  let id = 1;
+  while (true) {
+    yield id;
+    id += 1;
+  }
+}
+let id = generateIds();
+console.log(id.next()); //{value: 1, done: false}
+console.log(id.next()); //{value: 2, done: false}
+for (let i = 0; i < 100; i++) {
+  console.log(id.next());
+} // it will always generate an increasing number and that is unique
+```
+
+### Callback Hell:
+
+- callback hell is a situation when we nested the asynchronous call backs or synchronous (that performs async operations inside the function). it will leads to call back hell. it is also know as pyramid of doom.
+  ![alt text](image-4.png)
+- Two problems with callbacks are:
+
+1. Callback Hell - It happens due to calling callbacks inside an another callback and so on. Also known as pyramid of doom. This makes code look ugly and unmaintainable in real world programming. Here the code grows horizontally.
+
+2. Inversion of Control - When we pass a callback function inside an another function then we give the control to the function to call the callback function.
+
+**Example 1**
+
+```javascript []
+function getUser(userId, callback) {
+  setTimeout(() => {
+    console.log("Fetched user data.");
+    callback({ userId: userId, username: "Nani" });
+  }, 1000);
+}
+
+function getOrders(userId, callback) {
+  setTimeout(() => {
+    console.log("Fetched orders for the user.");
+    callback(["order1", "order2", "order3"]);
+  }, 1000);
+}
+
+function getOrderDetails(orderId, callback) {
+  setTimeout(() => {
+    console.log(`Fetched details for order: ${orderId}`);
+    callback({ orderId: orderId, item: "Laptop", price: 1200 });
+  }, 1000);
+}
+
+// Using nested callbacks (callback hell)
+getUser(1, (user) => {
+  console.log("User:", user);
+  getOrders(user.userId, (orders) => {
+    // Inversion of control we given the control  of getOrder function to the getUser function
+    console.log("Orders:", orders);
+    getOrderDetails(orders[0], (orderDetails) => {
+      console.log("Order Details:", orderDetails);
+    });
+  });
+});
+```
+
+**Example 2**
+
+```javascript []
+function started(user, callback) {
+  setTimeout(() => {
+    console.log("Reached to the Office", user);
+    callback({ userId: 21, username: user });
+  }, 2000);
+}
+function inOffice(userId, callback) {
+  setTimeout(() => {
+    console.log("Work Continues..");
+    callback({ userId: userId, work: "TLE2013" });
+  }, 3000);
+}
+function checkOut(userData, callback) {
+  setTimeout(() => {
+    console.log("Work Done!");
+    console.log(userData);
+    callback({ userId: userData.userId, work: userData.work, status: "Done" });
+  }, 4000);
+}
+started("Praveen", (user) => {
+  console.log("Started Working");
+  inOffice(user.userId, (userData) => {
+    console.log("Working..on", userData.work);
+    checkOut(userData, (data) => {
+      console.log("Status", data);
+    });
+  });
+});
+```
+
+**_Output_**
+![alt text](image-7.png)
+
+### Promises:
+
+- The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+- A promise has 3 states:
+  - **pending**:The initial state, where the operation has not completed yet.
+  - **fulfilled**: The operation completed successfully.
+  - **rejected**: The operation failed.
+- As soon as promise is fulfilled/rejected => It updates the empty object which is assigned undefined in pending state.
+- A promise resolves only once and it is immutable.
+- Using `.then()` we can control when we call the cb(callback) function.
+- Before promise we used to depend on callback functions which would result in
+  1. Callback Hell (Pyramid of doom) |
+  2. Inversion of control
+- To avoid callback hell (Pyramid of doom) => We use promise chaining. This way our code expands vertically instead of horizontally.
+- Chaining is done using `.then()`
+- Note:A very common mistake that developers do is not returning a value during chaining of promises.
+- Always remember to return a value. This returned value will be used by the next `.then()`
+  ![alt text](image-6.png)
+
+#### Structure of a Promise
+
+- The basic syntax for creating a promise is:
+
+```javascript []
+const myPromise = new Promise((resolve, reject) => {
+  // Asynchronous operation here
+  if (/* operation successful */) {
+    resolve('Success');
+  } else {
+    reject('Error');
+  }
+});
+```
+
+- Once a promise is created, it can be used with `.then()`, `.catch()`, and `.finally()` methods to handle the fulfilled or rejected state.
+- `.then` is used for the fulfilled or success
+- `.then()` allows you to chain multiple promises, creating a sequence of asynchronous operations that execute one after the other.
+- `.catch()` is used for the rejected state. It is used to handle the errors
+- `.finally()` it's get called after the promise done regardless of whether promise was fulfilled or rejected.
+
+#### Promise Methods:
+
+- Promise methods are useful handle the multiple promises at the same time.
+- It helps to handle complex asynchronous callbacks.
+- `Promise.all()`
+- `Promise.race()`
+- `Promise.any()`
+- `Promise.allSettled()`
+
+##### 1. Promise.all():
+
+- Promise.all method allows you to run multiple promises at the same time. It waits for all the promises to fulfilled and gives you the results together.
+- if any one of the promise get rejected then result should also be error.
+
+```javascript []
+let promise1 = new Promise((resolve, reject) => resolve("Resolved1"));
+let promise2 = new Promise((resolve, reject) => resolve("Resolved2"));
+let promise3 = new Promise((resolve, reject) => resolve("Resolved3"));
+let promise4 = new Promise((resolve, reject) => reject("Failed4"));
+// Example 1 For the all fulfillments:
+Promise.all([promise1, promise2, promise3])
+  .then((results) => {
+    // results is an array of each promise's result
+    console.log(results); // output: ["Resolved1","Resolved2","Resolved3"]
+  })
+  .catch((error) => {
+    // If any promise is rejected, catch the error
+    console.error("A promise failed to resolve", error);
+  });
+//Example 2 for the rejected Promise
+Promise.all([promise1, promise2, promise3, promise4])
+  .then((results) => {
+    // results is an array of each promise's result
+    console.log(results);
+  })
+  .catch((error) => {
+    // If any promise is rejected, catch the error
+    console.error("A promise failed to resolve", error); // A promise failed to resolve,Failed4
+  });
+```
+
+##### 2. Promise.race():
+
+- Promise.race is a method in JavaScript that returns a promise that resolves or rejects as soon as one of the promises in the iterable resolves or rejects.
+- This means it "races" all the provided promises and settles with the outcome of the first settled promise (whether fulfilled or rejected).
+
+```javascript []
+let promise1 = new Promise((resolve, reject) => resolve("Resolved1"));
+let promise2 = new Promise((resolve, reject) => resolve("Resolved2"));
+let promise3 = new Promise((resolve, reject) => resolve("Resolved3"));
+Promise.race([promise1, promise2, promise3])
+  .then((value) => {
+    // Value of the first resolved promise
+    console.log(value); // output: Resolved1
+  })
+  .catch((error) => {
+    // Error of the first rejected promise
+    console.error(error);
+  });
+```
+
+##### 3. Promise.any():
+
+- Promise.any is a method in JavaScript that takes an array of promises and returns a `single promise`.
+- It returns value of the first promise which get fulfilled.
+- This returned promise resolves as soon as any of the input promises resolves, with the value of the first resolved promise.
+- If none of the input promises resolve (i.e., all of them rejected), then the returned promise rejects with an `AggregateError`.
+- which is an error that groups together multiple individual errors.
+- it also generate the AggregateError if all the promises get rejected.
+
+```javascript []
+let promise1 = new Promise((resolve, reject) => resolve("Resolved1"));
+let promise2 = new Promise((resolve, reject) => resolve("Resolved2"));
+let promise3 = new Promise((resolve, reject) => resolve("Resolved3"));
+Promise.any([promise1, promise2, promise3])
+  .then((value) => {
+    console.log(value); // Resolved1
+  })
+  .catch((error) => {
+    console.error("All promises were rejected");
+  });
+//Example 2 For AggregateError
+let promise4 = new Promise((resolve, reject) => reject("Rejected4"));
+let promise5 = new Promise((resolve, reject) => reject("Rejected5"));
+Promise.any([promise4, promise5])
+  .then((val) => {
+    console.log(val); //AggregateError: All promises were rejected
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+```
+
+##### 4. Promise.allSettled():
+
+- Waits for all promises in the iterable to settle (either fulfilled or rejected).
+- Returns a single promise that resolves to an array of objects describing the outcome of each promise ({status: 'fulfilled', value: ...} for fulfilled promises and{status: 'rejected', reason: ...} for rejected promises).
+- Does not reject immediately if any of the promises are rejected.
+
+```javascript []
+let promise1 = new Promise((resolve, reject) => resolve("Resolved1"));
+let promise2 = new Promise((resolve, reject) => resolve("Resolved2"));
+let promise3 = new Promise((resolve, reject) => resolve("Resolved3"));
+let promise4 = new Promise((resolve, reject) => reject("Rejected4"));
+let promise5 = new Promise((resolve, reject) => reject("Rejected5"));
+Promise.allSettled([promise1, promise2, promise3, promise4, promise5]).then(
+  (results) => {
+    console.log(result);
+  }
+);
+```
+
+![alt text](image-5.png)
