@@ -1437,6 +1437,49 @@ started("Praveen", (user) => {
 **_Output_**
 ![alt text](image-7.png)
 
+- Solving the callback hell using the `promise chaining`.
+
+```javascript []
+function started(user) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Reached to the Office", user);
+      resolve({ userId: 21, username: user });
+    }, 2000);
+  });
+}
+function inOffice(userId) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Work Continues..");
+      resolve({ userId: userId, work: "TLE2013" });
+    }, 3000);
+  });
+}
+function checkOut(userData) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Work Done!");
+      console.log(userData);
+      resolve({ userId: userData.userId, work: userData.work, status: "Done" });
+    }, 4000);
+  });
+}
+started("Praveen")
+  .then((data) => {
+    console.log("Started Working");
+    return inOffice(data.userId);
+  })
+  .then((userData) => {
+    console.log("Status", userData);
+    return checkOut(userData);
+  })
+  .catch((err) => console.log(err));
+```
+
+**Output:**
+![alt text](image-13.png)
+
 ### Promises:
 
 - The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
@@ -1488,8 +1531,11 @@ const myPromise = new Promise((resolve, reject) => {
 
 ##### 1. Promise.all():
 
+- (All or None)
+- Promise.all accepts the array of promises.
 - Promise.all method allows you to run multiple promises at the same time. It waits for all the promises to fulfilled and gives you the results together.
 - if any one of the promise get rejected then result should also be error.
+- as soon as any promise get rejected then promise.all also throw an error.(Immediately throw error if any promise get failed it won't wait for another promises to resolve)
 
 ```javascript []
 let promise1 = new Promise((resolve, reject) => resolve("Resolved1"));
@@ -1520,6 +1566,7 @@ Promise.all([promise1, promise2, promise3, promise4])
 
 ##### 2. Promise.race():
 
+- (First settled promise (fulfilled or rejected))
 - Promise.race is a method in JavaScript that returns a promise that resolves or rejects as soon as one of the promises in the iterable resolves or rejects.
 - This means it "races" all the provided promises and settles with the outcome of the first settled promise (whether fulfilled or rejected).
 
@@ -1540,6 +1587,7 @@ Promise.race([promise1, promise2, promise3])
 
 ##### 3. Promise.any():
 
+- (First resolved promise or AggregateError)
 - Promise.any is a method in JavaScript that takes an array of promises and returns a `single promise`.
 - It returns value of the first promise which get fulfilled.
 - This returned promise resolves as soon as any of the input promises resolves, with the value of the first resolved promise.
@@ -1572,8 +1620,9 @@ Promise.any([promise4, promise5])
 
 ##### 4. Promise.allSettled():
 
+- (All with errors and fulfils)
 - Waits for all promises in the iterable to settle (either fulfilled or rejected).
-- Returns a single promise that resolves to an array of objects describing the outcome of each promise ({status: 'fulfilled', value: ...} for fulfilled promises and{status: 'rejected', reason: ...} for rejected promises).
+- Returns a single promise that resolves to an `array of objects` describing the outcome of each promise ({status: 'fulfilled', value: ...} for fulfilled promises and{status: 'rejected', reason: ...} for rejected promises).
 - Does not reject immediately if any of the promises are rejected.
 
 ```javascript []
@@ -1590,3 +1639,237 @@ Promise.allSettled([promise1, promise2, promise3, promise4, promise5]).then(
 ```
 
 ![alt text](image-5.png)
+
+### Promise Chaining:
+
+- Promise chaining allows you to execute a series of asynchronous operations in sequence.
+- It is a powerful feature of JavaScript `promises` that helps you manage multiple operations, making your code more readable and easier to maintain.
+- Allows multiple asynchronous operations to run in sequence.
+- Reduces `callback hell` by eliminating deeply nested functions.
+- Each `.then()` returns a new promise, allowing further chaining.
+- Error handling is easier with a single `.catch()` for the entire chain.
+
+**Simple Example**
+
+- single promise without chaining
+
+```javascript []
+let promise = new Promise((resolve, reject) => {
+  resolve("Promise Resolved");
+});
+promise
+  .then((data) => {
+    console.log(data); //Promise Resolved
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+```
+
+**Example**
+
+- Example using E-commerce Website Orders
+
+```javascript []
+let cartData = [
+  { Item: "Shirt", price: 299 },
+  { Item: "Pant", price: 599 },
+];
+
+let balance = 2000;
+
+let validateCart = (cartData) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (cartData && cartData.length > 0) {
+        console.log("Cart Validation Successful", cartData);
+        resolve(true);
+      } else {
+        reject(new Error("Cart is empty. Validation failed."));
+      }
+    }, 2000);
+  });
+};
+
+let paymentMode = (balance, cartData) => {
+  return new Promise((resolve, reject) => {
+    let totalCost = cartData.reduce(
+      (totalCost, product) => totalCost + product.price,
+      0
+    );
+    setTimeout(() => {
+      if (balance >= totalCost) {
+        let orderId = new Date().getTime();
+        resolve({ status: true, orderId: orderId });
+      } else {
+        reject(new Error("Payment failed. Insufficient balance."));
+      }
+    }, 2000);
+  });
+};
+
+let orderStatus = (order) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (order.status) {
+        resolve("Order placed successfully!");
+      } else {
+        reject(new Error("Payment Failed!"));
+      }
+    }, 2000);
+  });
+};
+
+// Promise Chain
+validateCart(cartData)
+  .then((flag) => paymentMode(balance, cartData))
+  .then((orderData) => {
+    console.log("Payment Successful:", orderData);
+    return orderStatus(orderData);
+  })
+  .then((statusMessage) => console.log(statusMessage))
+  .catch((err) => console.log("Error:", err));
+```
+
+**output**
+![alt text](image-11.png)
+
+- if `balance = 0` then it will throw an Error
+
+![alt text](image-12.png)
+
+### SetTimeout():
+
+- Executes a function or a piece of code once after a specified delay (in milliseconds).
+
+**syntax**
+
+`setTimeout(function,delay)`
+
+**Example:**
+
+```javascript []
+setTimeout(() => {
+  console.log("This message will be displayed after 2 seconds");
+}, 2000);
+```
+
+**Note**
+
+- Useful for running code after a delay, like showing a message, changing UI after a specific time, or delaying API calls.
+- The `setTimeout` function places the callback in the callback queue, which is executed only after the call stack is empty, even if the `setTimeout` delay is set to `0ms`.
+- `setTimeout` ensures that at a minimum, the delay specified will be respected. However, execution may be delayed further if the call stack is not empty.
+- It is not guaranteed that the `setTimeout` function will invoke the callback immediately after the timer ends. It ensures the callback is executed after the timer ends, but the exact timing depends on when the call stack becomes clear.
+
+### setInterval():
+
+- Executes a function or a piece of code repeatedly at regular intervals (in milliseconds) until it is stopped.
+- using `clearInterval()` we can able stop the setInterval
+
+**syntax**
+`setInterval(function,delay)`
+
+**Example:**
+
+```javascript []
+let interval = setInterval(() => {
+  console.log("This message is displayed every 2 second");
+}, 2000);
+// To stop the interval
+setTimeout(() => {
+  clearInterval(interval);
+}, 10000); //stops after 10 seconds
+```
+
+- Ideal for running a piece of code repeatedly, like updating a clock, sending heartbeats to a server, or periodically checking a condition.
+
+### How Js Works:
+
+- Javascript is a single threaded scripting language invented to execute web development simpler and more beautiful.
+- Whenever any JavaScript code execution starts a Global Execution Context is created and pushed into the call stack.
+- An Execution Context is a box which has two components called Memory Component(Variable Environment) and Code Component(Thread Of Execution).
+- The Execution context is created in two phases
+  1. Memory Creation Phase : In this phase, memory is allocated to all the variables and functions in a key-value pair
+     that are present in the global scope. Special keyword Undefined in case of variables and literally the whole function in case of functions.
+  2. Code Execution Phase: Code is executed line by line in this phase.
+- Whenever a function is invoked, a new execution context is created, and the same process is followed again.
+- If any function parameter is present, it is also allocated memory while creating the function's execution context.
+- Whenever the return keyword is encountered, it means the task of function is over and it returns the control of the program to the place where it was invoked. and with this execution context is deleted from the stack.
+- Call Stack is a stack which maintains the order of execution of execution context.
+- Whenever a code is executed the Global Execution Context is pushed into the stack first and later on as per the function invocation the execution context is pushed into the stack. When the function code is done executing the execution context is popped out and last the Global Execution Context is also deleted.
+
+#### What is Execution Context?
+
+- When JavaScript reads the script file, it creates an environment called `Execution context`. which manages the process of converting and running the code.
+- During the execution context phase,it examines the source code and allocate the memory to the variables and functions.
+- They are two types of execution contexts,
+  1. Global Execution context
+  2. Functional execution context
+
+**1. Global Execution context**:The Global Execution context is created when JavaScript program first begins the execution and it defines the scope of the entire program.
+**2. Function Execution Context**: Whenever a function invocation comes it creates a brand new execution context and pushed into the `callStack` is called functional execution context.
+
+#### Phases of the Execution Context:
+
+- In the Execution context there are two phases are there they are:
+
+**1. Memory creation phase:**
+
+- In this phase `Memory` is allocated to the variables and functions.incase of variables it allocates the memory in form `key-value pair`.
+- In case of Variables `Key` will be variable name and spacial keyword `undefined` as the value.
+- In case of Functions `Key` will be the function name and entire function as a value.
+
+**2. Code execution phase:**
+
+- In this phase code is executed line by line.
+  ![alt text](image-8.png)
+
+#### What is the Call Stack?
+
+- CallStack is a stack which is used to maintain the order of the execution of the execution context.
+- CallStack maintains the `Order of execution of execution contexts`
+- it works like `stack` new task is pushed at the top.
+
+```javascript []
+function sum(num1, num2) {
+  return num1 + num2;
+}
+
+function getResult(num1, num2, sumHandler) {
+  return sumHandler(num1, num2);
+}
+
+var result = getResult(10, 20, sum);
+
+console.log(result); // 30
+```
+
+![alt text](https://miro.medium.com/v2/resize:fit:720/format:webp/1*Mt65n-21B-l9OfpduFKm1w.gif)
+
+### Async and Sync:
+
+![alt text](image-10.png)
+
+#### What Single-Threaded means?
+
+- One command processes at a time.
+- Within the call stack, JS code is read and gets executed line by line. Now, JavaScript is a single-threaded language, which means it has only one call stack that is used to execute the program.
+
+#### What Synchronous ?
+
+- In synchronous programming, steps defined sequentially occur in the same order.
+- Synchronous means the code executed line after a line
+- i.e it executes one command at a time.
+- So for example, the code below is going to be executed as its written order
+
+```javascript []
+console.log("I'm gonna be executed first");
+console.log("I'm gonna be executed second");
+console.log("I'm gonna be executed third");
+```
+
+#### What Asynchronous?
+
+- Asynchronous programming is a technique that enables your program to start a potentially long-running task, and then rather than having to wait until that task has finished, to be able to continue to be responsive to other events while the task runs.
+- Simple words, If this line would take a lot of time, We can’t wait for it
+- Time, tide and JavaScript waits for none
