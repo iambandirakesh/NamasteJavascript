@@ -1,19 +1,22 @@
 let p1 = new Promise((resolve, reject) => {
   setTimeout(() => {
-    reject("P1 rejected");
-  }, 1000);
-});
-let p2 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("P2 Solved");
-  }, 3000);
+    reject("p1 Rejected");
+  }, 5000);
 });
 
+let p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject("p2 Rejected");
+  }, 3000);
+});
 let p3 = new Promise((resolve, reject) => {
   setTimeout(() => {
-    resolve("P3 Solved");
-  }, 2000);
+    reject("p3 Rejected");
+  }, 100);
 });
 Promise.race([p1, p2, p3])
   .then((data) => console.log(data))
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.log(err.errors);
+    console.log(err);
+  });

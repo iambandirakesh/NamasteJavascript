@@ -1121,6 +1121,151 @@ let keys = Object.values(obj);
 console.log(keys); //['Game Changer', '10/01/2025', 'Ramcharan', 'Shankar']
 ```
 
+#### Coercion in js ?
+
+- Coercion in JavaScript refers to the automatic or implicit conversion of a value from one data type to another.
+- It occurs in various scenarios, particularly during comparisons or arithmetic operations.
+- Types of Coercion:
+
+1. Implicit Coercion:
+
+- Happens automatically during operations where different types interact.
+
+**Example:**
+
+```javascript []
+console.log("5" - 2); // Output: 3 ('5' is coerced to a number)
+console.log("5" + 2); // '52' (2 is coerced to a string)
+console.log(true + 1); // 2 (true is coerced to 1)
+```
+
+2. Explicit Coercion:
+
+- The developer manually converts a value from one type to another using functions or operators.
+
+**Example:**
+
+```javascript []
+console.log(Number("5")); // 5 (string '5' is coerced to a number)
+console.log(String(5)); // '5' (number 5 is coerced to a string)
+console.log(Boolean(0)); // false (0 is coerced to false)
+```
+
+#### Dynamic Typing in js?
+
+- Dynamic typing in JavaScript means that variables can hold values of any data type, and the type can change during runtime.
+- you don’t need to declare the data type of a variable explicitly.
+
+**Example:**
+
+```javascript []
+let variable = 42; // Initially a number
+console.log(typeof variable); // Output: "number"
+
+variable = "Hello, world!"; // Now a string
+console.log(typeof variable); // Output: "string"
+
+variable = true; // Now a boolean
+console.log(typeof variable); // Output: "boolean"
+```
+
+### Polyfill:
+
+- A polyfill in JavaScript is a piece of code that provides modern functionality on older browsers or environments that do not natively support it.
+- Polyfills allow developers to use newer features of the JavaScript language (or the web platform) while maintaining compatibility with older environments.
+- For example if your using a `map` method of array but unfortunately your browser is not supported due to older version in that case you can create your own `map` method to perform the same operations that how `map` works.
+
+##### Polyfill for map():
+
+```javascript []
+if (!Array.prototype.map) {
+  Array.prototype.map = function (callback) {
+    let arr = this;
+    if (!Array.isArray(arr)) {
+      return new Error("TypeError: arr.map is not a function");
+    }
+    let result = [];
+    for (let i = 0; i < arr.length; i++) {
+      result.push(callback(arr[i], i, arr));
+    }
+    return result;
+  };
+}
+```
+
+#### Polyfill for filter():
+
+```javascript []
+if (!Array.prototype.filter) {
+  Array.prototype.filter = function (callback) {
+    let arr = this;
+    let result = [];
+    if (!Array.isArray(arr)) {
+      return new Error("TypeError: arr.filter is not a function");
+    }
+    for (let i = 0; i < arr.length; i++) {
+      if (callback(arr[i], i, arr)) {
+        result.push(arr[i]);
+      }
+    }
+    return result;
+  };
+}
+```
+
+#### Polyfill for reduce():
+
+```javascript []
+if (!Array.prototype.reduce) {
+  Array.prototype.reduce = function (callback, intialValue) {
+    let result = intialValue || callback[0];
+    let arr = this;
+    if (!Array.isArray(arr)) {
+      return new Error("TypeError: arr.reduce is not a function");
+    }
+    for (let index = 0; index < arr.length; index++) {
+      result = callback(result, arr[index], index);
+    }
+    return result;
+  };
+}
+```
+
+#### Polyfill for find():
+
+```javascript []
+if (!Array.prototype.find) {
+  Array.prototype.find = function (callback) {
+    let arr = this;
+    if (!Array.isArray(arr)) {
+      return new Error("TypeError: arr.find is not a function");
+    }
+    for (let i = 0; i < arr.length; i++) {
+      if (callback(arr[i], i, arr)) {
+        return arr[i];
+      }
+    }
+    return result;
+  };
+}
+```
+
+#### Polyfill for forEach():
+
+```javascript []
+if (!Array.prototype.forEach) {
+  Array.prototype.forEach = function (callback) {
+    let arr = this;
+    if (!Array.isArray(arr)) {
+      return new Error("TypeError: arr.forEach is not a function");
+    }
+    for (let i = 0; i < arr.length; i++) {
+      callback(arr[i], i, arr);
+    }
+  };
+}
+```
+
 ### What is Scope?
 
 - Scope refers to the context or environment in which variables are declared and accessed.
@@ -1604,17 +1749,18 @@ Promise.any([promise1, promise2, promise3])
     console.log(value); // Resolved1
   })
   .catch((error) => {
-    console.error("All promises were rejected");
+    console.log("All promises were rejected");
   });
 //Example 2 For AggregateError
 let promise4 = new Promise((resolve, reject) => reject("Rejected4"));
 let promise5 = new Promise((resolve, reject) => reject("Rejected5"));
 Promise.any([promise4, promise5])
   .then((val) => {
-    console.log(val); //AggregateError: All promises were rejected
+    console.log(val);
   })
   .catch((err) => {
-    console.log(err);
+    console.log(err); //AggregateError: All promises were rejected
+    console.log(err.errors); // ['Rejected4', 'Rejected5']
   });
 ```
 
@@ -1873,3 +2019,123 @@ console.log("I'm gonna be executed third");
 - Asynchronous programming is a technique that enables your program to start a potentially long-running task, and then rather than having to wait until that task has finished, to be able to continue to be responsive to other events while the task runs.
 - Simple words, If this line would take a lot of time, We can’t wait for it
 - Time, tide and JavaScript waits for none
+- Async Function always return a `promise`
+
+#### Async and Await?
+
+- async and await are keywords in JavaScript that provide a more readable and declarative way to work with asynchronous code.
+- They are syntactic sugar over Promises and make asynchronous code look like synchronous code, improving readability and reducing callback hell..
+  1. async Keyword:
+     - The async keyword is used to declare an asynchronous function. This means that the function will always return a promise, and you can use the await keyword inside it to wait for other promises to resolve.
+  2. await Keyword: - he await keyword can only be used inside async functions. It suspend the async function until the promise is settled either resolved or rejected) After promise get resolved then it again come to the callstack and returns the result. If the promise is rejected, await throws the rejected value.
+     **Example:**
+
+```javascript []
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value!!");
+  }, 10000);
+});
+const p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value!!");
+  }, 5000);
+});
+async function handlePromise() {
+  console.log("Hello World !!");
+  const val = await p1;
+  console.log("Namaste Javascript");
+  console.log(val);
+  const val2 = await p2;
+  console.log("Namaste Javascript 2");
+  console.log(val2);
+}
+handlePromise();
+console.log("Hello");
+```
+
+- In the above condition, when p1 will resolve after 10 seconds, and p2 will resolve after 5 seconds
+- then we see that after 10 seconds p1 get resolved but at the time p2 is already resolved at 5 seconds.
+- As p2's setTimeout value is lesser(5 Seconds) than p1.(10 Seconds)
+- As said when JavaScript fetch or reach the line of handlePromise function the following this will be happen.
+
+  1. In call stack first handlePromise is loaded and it console log the "Hello World !!"
+  2. Then it go to the next line, finds that there has been await p1.
+  3. When it saw await p1, `handlePromise execution context` removed from the call stack.
+  4. Then it quickly prints the what ever there after the handlePromise function i.e it consoles `Hello`
+  5. After the 10 seconds over, `handlePromise execution context` again appear in the call stack and start execution from where it is left.
+  6. Now the `Namaste Javascript` get printed and also the val value i.e. `Promise Resolved Value!!`
+  7. Next it reaches to `p2` promise but it resolved a long back it prints value ``Namaste Javascript 2`
+
+##### What if p1 promise resolves before p2?
+
+```javascript []
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value!!");
+  }, 5000);
+});
+const p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Promise Resolved Value!!");
+  }, 10000);
+});
+async function handlePromise() {
+  console.log("Hello World !!");
+  const val = await p1;
+  console.log("Namaste Javascript");
+  console.log(val);
+  const val2 = await p2;
+  console.log("Namaste Javascript 2");
+  console.log(val2);
+}
+handlePromise();
+console.log("Hello");
+```
+
+- In the above example promise `p1` resolved at `5sec` and `p2` resolved at `10sec`
+- so when javascript see the `p1` it suspend the `handlePromise execution context` for `5sec` and it again appears after the promise resolved.
+- At the time `p2` also reached to the `5sec` but it not resolved
+- so again when it see the p2 it suspend the `handlePromise execution context` for again `5sec` total `10sec` and it again appears after promise resolved
+
+#### What are the ways to make the code Async?
+
+- we can make your code asynchronous using:
+
+**1. Callbacks:** Basic and simple, but can lead to callback hell.
+**2.Promises:** Cleaner and more structured.
+**3. Async/Await:** Makes asynchronous code look synchronous.
+**4. Event Loop Features:** setTimeout, setImmediate, process.nextTick.
+**5. APIs:** fetch, WebSocket, or other async APIs.
+
+#### Diff b/w Async and Sync?
+
+![alt text](image-14.png)
+![alt text](image-15.png)
+
+#### Garbage Collector:
+
+- Garbage Collection in JavaScript refers to the automatic process of reclaiming memory that is no longer in use, ensuring that your application doesn’t run out of memory during execution.
+
+**Memory Life Cycle**
+
+- Allocate the memory.
+- Use the allocated memory either to read or write or both.
+- Release the allocated memory when it is no longer required.
+
+##### How Garbage collector Works:
+
+- **Memory Allocation:** When objects, variables, or functions are created, memory is allocated.
+- **Memory Deallocation:** When these entities are no longer accessible or needed, memory is automatically released.
+- JavaScript uses a garbage collector to identify and remove unused memory. The most common algorithm is Mark-and-Sweep.
+
+**Mark-and-Sweep Algorithm**
+
+- **Mark:** The garbage collector “marks” all objects that are accessible.
+- **Sweep:** It removes (or “sweeps”) objects that are not marked, freeing up memory.
+
+**Example**
+![alt text](image-16.png)
+
+- In the above example when JavaScript reaches to the line 5 garbage collector removed the `z` variable because that no longer needed.
+- it only remember the variable `x` and free up the space that is occupied by the variable `z`
