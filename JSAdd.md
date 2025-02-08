@@ -36,7 +36,7 @@ this.name=name
 this.team=team
 }
 var myObj = new Player("Virat Kohli","RCB");
-
+V
 //Above code is similar to this
 
 
@@ -1366,6 +1366,24 @@ z() => Output==> 11
 - so,if we return a function even it's still Remember where it from so,it can remember it's parent scope and we can access
 - it in outside by returning it from a function.
 
+### Currying?
+
+- Currying is a technique of converting a function that takes multiple arguments into a sequence of functions that each take a single argument.
+
+**Example**
+
+```javascript []
+function add(x, y, z) {
+  return function (y) {
+    return function (z) {
+      return x + y + z;
+    };
+  };
+}
+```
+
+- i.e we are converted the function is => function(x,y,z) to function(x)(y)(z)
+
 ## Asynchronous JavaScript:
 
 #### 1.Callback Function:
@@ -1409,7 +1427,7 @@ helloWorld(); // Outputs 'Hello World!'
 function() {
   // Function Body
 }
-//ES6 declarations -> Arrow Functions
+// ES6 declarations -> Arrow Functions
 () => {
   // Function Body
 }
@@ -1488,6 +1506,7 @@ function* generateIds() {
   let id = 1;
   while (true) {
     yield id;
+    yield;
     id += 1;
   }
 }
@@ -2139,3 +2158,312 @@ console.log("Hello");
 
 - In the above example when JavaScript reaches to the line 5 garbage collector removed the `z` variable because that no longer needed.
 - it only remember the variable `x` and free up the space that is occupied by the variable `z`
+
+# **DOM Cheat Sheet**
+
+## **1. DOM Events** 🎯
+
+### **Mouse Events 🖱️**
+
+| Event                       | Description                                 |
+| --------------------------- | ------------------------------------------- |
+| `click`                     | Fires when an element is clicked            |
+| `dblclick`                  | Fires when an element is double-clicked     |
+| `mousedown` / `mouseup`     | Fires when mouse button is pressed/released |
+| `mousemove`                 | Fires when the mouse moves                  |
+| `mouseenter` / `mouseleave` | Fires when mouse enters/leaves an element   |
+
+### **Keyboard Events ⌨️**
+
+| Event     | Description                  |
+| --------- | ---------------------------- |
+| `keydown` | Fires when a key is pressed  |
+| `keyup`   | Fires when a key is released |
+
+### **Form Events 📝**
+
+| Event            | Description                        |
+| ---------------- | ---------------------------------- |
+| `submit`         | Fires when form is submitted       |
+| `change`         | Fires when input value changes     |
+| `focus` / `blur` | Fires when input gains/loses focus |
+
+### **Window Events 🌍**
+
+| Event    | Description                     |
+| -------- | ------------------------------- |
+| `load`   | Fires when page is fully loaded |
+| `resize` | Fires when window is resized    |
+| `scroll` | Fires when user scrolls         |
+
+### **Clipboard Events 📋**
+
+| Event   | Description                  |
+| ------- | ---------------------------- |
+| `copy`  | Fires when content is copied |
+| `paste` | Fires when content is pasted |
+
+---
+
+## **2. Event Listener Syntax**
+
+```javascript []
+element.addEventListener("event", function);
+element.removeEventListener("event", function);
+```
+
+**Example:**
+
+```javascript []
+document.getElementById("btn").addEventListener("click", () => {
+  alert("Button clicked!");
+});
+```
+
+---
+
+## **3. DOM Selectors** 🔍
+
+| Method                                     | Description                        | Returns        |
+| ------------------------------------------ | ---------------------------------- | -------------- |
+| `document.getElementById("id")`            | Selects an element by ID           | Single element |
+| `document.getElementsByClassName("class")` | Selects elements by class          | HTMLCollection |
+| `document.getElementsByTagName("tag")`     | Selects elements by tag            | HTMLCollection |
+| `document.querySelector("selector")`       | Selects the first matching element | Single element |
+| `document.querySelectorAll("selector")`    | Selects all matching elements      | NodeList       |
+
+**Examples:**
+
+```javascript []
+document.getElementById("title").textContent = "Hello!";
+document.querySelector(".box").style.color = "red";
+```
+
+---
+
+## **4. DOM Methods** 🛠️
+
+### **1. Modifying Content**
+
+```javascript []
+element.innerHTML = "New Content"; // Set HTML
+element.textContent = "Only Text"; // Set text
+element.value = "User Input"; // Set input value
+```
+
+### **2. Changing Styles**
+
+```javascript []
+element.style.color = "blue";
+element.style.backgroundColor = "yellow";
+```
+
+### **3. Working with Classes**
+
+```javascript []
+element.classList.add("active"); // Add class
+element.classList.remove("hidden"); // Remove class
+element.classList.toggle("dark-mode"); // Toggle class
+```
+
+### **4. Creating & Removing Elements**
+
+```javascript []
+let newDiv = document.createElement("div"); // Create element
+newDiv.textContent = "Hello!";
+document.body.appendChild(newDiv); // Add to DOM
+document.body.removeChild(newDiv); // Remove element
+```
+
+### **5. Traversing the DOM**
+
+```javascript []
+element.parentElement; // Get parent element
+element.children; // Get child elements
+element.nextElementSibling; // Get next sibling
+element.previousElementSibling; // Get previous sibling
+```
+
+---
+
+## **5. Event Handling Methods** ⚡
+
+### **Inline Event**
+
+```html
+<button onclick="alert('Clicked!')">Click Me</button>
+```
+
+### **Event Listener**
+
+```javascript []
+element.addEventListener("click", function);
+```
+
+### **Removing an Event**
+
+```javascript []
+element.removeEventListener("click", function);
+```
+
+# 🔥 Event Bubbling, Event Capturing & Event Delegation
+
+---
+
+## **1️⃣ Event Bubbling (Bottom to Top)**
+
+👉 In **event bubbling**, when an event occurs on a child element, it first executes the event listener on that element and then bubbles up to its ancestors (parent, grandparent, etc.).
+
+### **Example of Event Bubbling**
+
+```html
+<div class="grandParent">
+  <div class="parent">
+    <div class="child">Click Me</div>
+  </div>
+</div>
+<script>
+  let child = document.querySelector(".child");
+  let parent = document.querySelector(".parent");
+  let grandParent = document.querySelector(".grandParent");
+
+  child.addEventListener("click", () => {
+    console.log("Child Clicked");
+  });
+
+  parent.addEventListener("click", () => {
+    console.log("Parent Clicked");
+  });
+
+  grandParent.addEventListener("click", () => {
+    console.log("GrandParent Clicked");
+  });
+</script>
+```
+
+### **Output (if you click on `.child`)**
+
+```
+Child Clicked
+Parent Clicked
+GrandParent Clicked
+```
+
+### **How It Works?**
+
+1. The event first fires on **`.child`**.
+2. Then it **bubbles up** to `.parent`, then `.grandParent`, and so on.
+
+---
+
+## **2️⃣ Event Capturing (Top to Bottom)**
+
+👉 **Event capturing (also called trickling)** happens in the opposite direction. The event starts at the topmost ancestor (like `document` or `window`) and **trickles down** to the target element.
+
+### **Example of Event Capturing**
+
+```javascript
+grandParent.addEventListener(
+  "click",
+  () => {
+    console.log("GrandParent Clicked");
+  },
+  true
+); // 👈 Passing `true` makes it a capturing event
+
+parent.addEventListener(
+  "click",
+  () => {
+    console.log("Parent Clicked");
+  },
+  true
+);
+
+child.addEventListener(
+  "click",
+  () => {
+    console.log("Child Clicked");
+  },
+  true
+);
+```
+
+### **Output (if you click `.child` with capturing)**
+
+```
+GrandParent Clicked
+Parent Clicked
+Child Clicked
+```
+
+### **How It Works?**
+
+1. The event starts at **`.grandParent`**.
+2. Then it **trickles down** to `.parent`, and finally `.child`.
+
+#### ✅ **Difference Between Bubbling & Capturing**
+
+- **Bubbling:** Starts from child → Goes up to parent (default behavior).
+- **Capturing:** Starts from top → Goes down to child (`true` must be passed in `addEventListener`).
+
+---
+
+## **3️⃣ Event Delegation (Efficient Event Handling)**
+
+👉 **Event Delegation** is a technique where we **attach a single event listener to a parent element** instead of adding individual event listeners to each child.
+
+💡 **Why Use It?**
+
+- Useful when dealing with **dynamic elements** (e.g., elements added later via JavaScript).
+- Improves **performance** (fewer event listeners = better efficiency).
+
+### **Example: Event Delegation**
+
+```html
+<ul class="list">
+  <li class="item">Item 1</li>
+  <li class="item">Item 2</li>
+  <li class="item">Item 3</li>
+</ul>
+<script>
+  document.querySelector(".list").addEventListener("click", (e) => {
+    if (e.target.matches(".item")) {
+      console.log(`Clicked on ${e.target.textContent}`);
+    }
+  });
+</script>
+```
+
+### **Output (if you click "Item 2")**
+
+```
+Clicked on Item 2
+```
+
+### **How It Works?**
+
+1. Instead of adding listeners to each `<li>`, we add **one listener** to `<ul>`.
+2. The event **bubbles up** to `<ul>`, where we check if the `target` was `.item`.
+3. This works even for **dynamically added** `<li>` elements.
+
+---
+
+## **🎯 Summary**
+
+| Feature              | Behavior                                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------------- |
+| **Event Bubbling**   | Event propagates **from child to parent** (bottom to top).                                        |
+| **Event Capturing**  | Event propagates **from parent to child** (top to bottom, requires `true`).                       |
+| **Event Delegation** | Attach an event listener to a parent and use `event.target` to handle child elements efficiently. |
+
+---
+
+### 🚀 **When to Use What?**
+
+✅ **Use Bubbling** (default) when you want an event to be handled at multiple levels.
+✅ **Use Capturing** when you need the event to be handled at the **top first** (rarely used).
+✅ **Use Delegation** when working with **many child elements** or **dynamically generated elements** (best practice for efficiency).
+
+```
+
+```

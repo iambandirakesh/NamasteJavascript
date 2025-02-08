@@ -290,3 +290,7 @@ function CounterComponent() {
    store.dispatch({ type: "INCREMENT" });
    console.log(store.getState()); // { count: 1 }
    ```
+
+---
+
+### ----- --- -- -- -- --
