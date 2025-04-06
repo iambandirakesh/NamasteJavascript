@@ -12,7 +12,7 @@ it simplifies software development and maintenance by providing some concepts:
 
 ### 1.Object:
 
-- Any entity that has state and behavior is known as an object.
+- An entity that has state and behavior is known as an object.
 - For example, a chair, pen, table, keyboard, bike, etc. It can be physical or logical.
 - An Object can be defined as an instance of a class.
 
@@ -227,7 +227,7 @@ console.log(a); //[0, 2, 8, 15]
 #### Deep Copy:
 
 - The value of the original variable is copied into new variable and there will not be any relation between new variable and original values.
-- If we change we change the new value the original value is unchanged.
+- If we change the new value the original value is unchanged.
 
 #### Shallow Copy:
 
@@ -1218,12 +1218,13 @@ if (!Array.prototype.filter) {
 ```javascript []
 if (!Array.prototype.reduce) {
   Array.prototype.reduce = function (callback, intialValue) {
-    let result = intialValue || callback[0];
     let arr = this;
+    let result = intialValue || arr[0];
+    let start = arr[0] === result ? 1 : 0;
     if (!Array.isArray(arr)) {
       return new Error("TypeError: arr.reduce is not a function");
     }
-    for (let index = 0; index < arr.length; index++) {
+    for (let index = start; index < arr.length; index++) {
       result = callback(result, arr[index], index);
     }
     return result;
@@ -1686,7 +1687,7 @@ const myPromise = new Promise((resolve, reject) => {
 
 #### Promise Methods:
 
-- Promise methods are useful handle the multiple promises at the same time.
+- Promise methods are useful to handle the multiple promises at the same time.
 - It helps to handle complex asynchronous callbacks.
 - `Promise.all()`
 - `Promise.race()`
@@ -1699,7 +1700,7 @@ const myPromise = new Promise((resolve, reject) => {
 - Promise.all accepts the array of promises.
 - Promise.all method allows you to run multiple promises at the same time. It waits for all the promises to fulfilled and gives you the results together.
 - if any one of the promise get rejected then result should also be error.
-- as soon as any promise get rejected then promise.all also throw an error.(Immediately throw error if any promise get failed it won't wait for another promises to resolve)
+- as soon as any promise get rejected then promise.all also throw an error.(Immediately throw error if any promise get failed it won't wait for another promises to resolve)callback
 
 ```javascript []
 let promise1 = new Promise((resolve, reject) => resolve("Resolved1"));
@@ -2464,6 +2465,123 @@ Clicked on Item 2
 ✅ **Use Capturing** when you need the event to be handled at the **top first** (rarely used).
 ✅ **Use Delegation** when working with **many child elements** or **dynamically generated elements** (best practice for efficiency).
 
+# DOMContentLoaded and Data Attributes
+
+## DOMContentLoaded
+
+### What is `DOMContentLoaded`?
+
+`DOMContentLoaded` is an event that fires when the initial HTML document has been completely loaded and parsed, without waiting for stylesheets, images, and subframes to finish loading.
+
+### How to Use `DOMContentLoaded`
+
+```javascript
+// Ensuring JavaScript runs only after the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM is fully loaded and parsed");
+});
 ```
 
+### Difference Between `DOMContentLoaded` and `load`
+
+| Event              | Fires When                                                                                                       |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| `DOMContentLoaded` | The HTML document is fully loaded and parsed, but external resources (images, stylesheets) may still be loading. |
+| `load`             | The entire page, including all dependent resources, is fully loaded.                                             |
+
+### Example Comparing Both Events
+
+```javascript
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM fully loaded");
+});
+
+window.addEventListener("load", () => {
+  console.log("All resources finished loading");
+});
 ```
+
+---
+
+## Data Attributes
+
+### What Are Data Attributes?
+
+Data attributes (`data-*`) allow you to store custom data in HTML elements, which can be accessed via JavaScript.
+
+### Syntax
+
+```html
+<div data-id="1234" data-user="JohnDoe">User Info</div>
+```
+
+### Accessing Data Attributes in JavaScript
+
+#### Using `dataset`
+
+```javascript
+let userDiv = document.querySelector("div");
+console.log(userDiv.dataset.id); // "1234"
+console.log(userDiv.dataset.user); // "JohnDoe"
+```
+
+#### Using `getAttribute()`
+
+```javascript
+console.log(userDiv.getAttribute("data-id")); // "1234"
+```
+
+### Modifying Data Attributes
+
+#### Changing an Existing Attribute
+
+```javascript
+userDiv.dataset.user = "JaneDoe";
+```
+
+#### Adding a New Data Attribute
+
+```javascript
+userDiv.dataset.role = "admin";
+```
+
+#### Removing a Data Attribute
+
+```javascript
+delete userDiv.dataset.user;
+```
+
+### Example Use Cases
+
+#### Event Handling with Data Attributes
+
+```html
+<button data-action="delete" onclick="handleClick(this)">Delete</button>
+<script>
+  function handleClick(element) {
+    console.log("Action:", element.dataset.action);
+  }
+</script>
+```
+
+#### Dynamic Theming
+
+```html
+<button data-theme="light" onclick="toggleTheme(this)">Toggle Theme</button>
+<script>
+  function toggleTheme(button) {
+    button.dataset.theme = button.dataset.theme === "light" ? "dark" : "light";
+  }
+</script>
+```
+
+### Best Practices
+
+- Use data attributes for metadata, not styling.
+- Prefer `dataset` over `getAttribute()` for readability.
+- Keep attribute names meaningful.
+- Avoid storing sensitive data in data attributes.
+
+---
+
+This document covers the concepts of `DOMContentLoaded` and data attributes, providing a solid foundation for working with them in JavaScript.

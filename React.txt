@@ -78,7 +78,7 @@
             =>so,it increase the complexity of the code.
             =>it is not a good practice to pass data from parent to child component.
         Example:
-            => we create the context using createConext()
+            => we create the context using createContext()
             => we consume the data by using the useContext()
                 import { useState, createContext, useContext } from "react";
                 import ReactDOM from "react-dom/client";
@@ -144,7 +144,7 @@
     6.useMemo():
         =>The React useMemo Hook returns a memoized value.
         =>The useMemo Hook only runs when one of its dependencies update.
-        =>useMemo used for performance optimaization
+        =>useMemo used for performance optimization
         =>it's used to optimize performance by avoiding unnecessary re-calculation of expensive operations.
         Example:
              => import React,{useMemo,useState} from 'react';
